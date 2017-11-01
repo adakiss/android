@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event action"
+        android:textSize="35dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+        <TextView
+            android:id="@+id/fromLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="From:"
+            android:textSize="30dp"
+            android:layout_centerVertical="true"
+            />
+
+        <EditText
+            android:id="@+id/fromDate"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2017.01.01"
+            android:textSize="20dp"
+            android:gravity="center"
+            />
+        <EditText
+            android:text="00:00"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:id="@+id/fromTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+        <TextView
+            android:id="@+id/toLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="To:"
+            android:textSize="30dp"
+            android:layout_centerVertical="true"
+            />
+
+        <EditText
+            android:id="@+id/toDate"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2017.01.01"
+            android:textSize="20dp"
+            android:gravity="center"
+            />
+        <EditText
+            android:text="00:00"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:id="@+id/toTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            />
+    </LinearLayout>
+</LinearLayout>
