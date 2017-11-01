@@ -20,7 +20,7 @@ import android.widget.EditText;
  *
  */
 //on activity created hook up popup datepicker and timepicker.
-public class BasicEventDataFragment extends Fragment {
+public class BasicEventDataFragment extends android.support.v4.app.Fragment {
     //the View that contains this fragment.
     View view;
 
