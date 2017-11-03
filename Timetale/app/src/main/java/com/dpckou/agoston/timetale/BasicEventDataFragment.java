@@ -48,10 +48,10 @@ public class BasicEventDataFragment extends android.support.v4.app.Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //finding dem view elements.
-        fromDate = (EditText)view.findViewById(R.id.fromDate);
-        toDate = (EditText)view.findViewById(R.id.toDate);
-        fromTime = (EditText)view.findViewById(R.id.fromTime);
-        toTime = (EditText)view.findViewById(R.id.toTime);
+        fromDate = (EditText)getView().findViewById(R.id.fromDate);
+        toDate = (EditText)getView().findViewById(R.id.toDate);
+        fromTime = (EditText)getView().findViewById(R.id.fromTime);
+        toTime = (EditText)getView().findViewById(R.id.toTime);
 
         fromDate.setOnClickListener(new OnClickListener() {
             @Override
