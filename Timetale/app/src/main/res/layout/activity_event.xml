@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:text="Date:"
             android:textSize="30dp"
+            android:editable="false"
             android:layout_centerVertical="true"
             />
         <NumberPicker
