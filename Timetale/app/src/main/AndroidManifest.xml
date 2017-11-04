@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".weekday.WeekDayPagerActivity"></activity>
+        <activity android:name=".EventActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,3 @@
+I put these custom listeners here to fight code duplication.
+This way I can input an EditText to update, and I don't have to copy paste the whole shit again
+for no apparent reason other than a single fucking line.

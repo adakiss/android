@@ -29,17 +29,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         testEventData = (Button)findViewById(R.id.testNewEvent);
-        //FIXME fucking crashes on every time I try to test my fragment BaseEventDataFragment
-        BasicEventDataFragment edFr = new BasicEventDataFragment();
-        FragmentManager fm = getSupportFragmentManager();
-        final FragmentTransaction ftr = fm.beginTransaction();
-        ftr.replace(R.id.container, edFr, "eventDataFragment");
 
         testEventData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                ftr.commit();
+                Intent startIntent = new Intent(view.getContext(), EventActivity.class);
+                startActivity(startIntent);
             }
         });
     }

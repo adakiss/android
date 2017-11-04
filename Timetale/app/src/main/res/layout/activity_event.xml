@@ -2,41 +2,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp">
-
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp">
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:text="Event action"
         android:textSize="35dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:layout_weight="1"/>
-    <RelativeLayout
+        android:gravity="center" />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
         <TextView
-            android:id="@+id/dateLabel"
-            android:layout_width="wrap_content"
+            android:id="@+id/fromLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Date:"
+            android:text="From:"
             android:textSize="30dp"
-            android:editable="false"
             android:layout_centerVertical="true"
             />
-        <NumberPicker
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/dateLabel"
-            android:datePickerMode="spinner"
-            android:theme="@style/NumberPickerText"
-            >
-        </NumberPicker>
 
-    </RelativeLayout>
+        <EditText
+            android:id="@+id/fromDate"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2017.01.01"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="false"
+            />
+        <EditText
+            android:text="00:00"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:id="@+id/fromTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:clickable="true"
+            android:focusable="false"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+        <TextView
+            android:id="@+id/toLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="To:"
+            android:textSize="30dp"
+            android:layout_centerVertical="true"
+            />
 
+        <EditText
+            android:id="@+id/toDate"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2017.01.01"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="false"
+            />
+        <EditText
+            android:text="00:00"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:id="@+id/toTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:clickable="true"
+            android:focusable="false"
+            />
+    </LinearLayout>
 </LinearLayout>

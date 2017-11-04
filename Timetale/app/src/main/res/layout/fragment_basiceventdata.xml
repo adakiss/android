@@ -36,7 +36,8 @@
             android:text="2017.01.01"
             android:textSize="20dp"
             android:gravity="center"
-            android:inputType="date"
+            android:clickable="true"
+            android:focusable="false"
             />
         <EditText
             android:text="00:00"
@@ -46,7 +47,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:inputType="time"
+            android:clickable="true"
+            android:focusable="false"
             />
     </LinearLayout>
     <LinearLayout
@@ -72,7 +74,8 @@
             android:text="2017.01.01"
             android:textSize="20dp"
             android:gravity="center"
-            android:inputType="date"
+            android:clickable="true"
+            android:focusable="false"
             />
         <EditText
             android:text="00:00"
@@ -82,7 +85,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:inputType="time"
+            android:clickable="true"
+            android:focusable="false"
             />
     </LinearLayout>
 </LinearLayout>
