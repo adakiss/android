@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.dpckou.agoston.timetale.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by kissa on 2017. 11. 01..
  */
@@ -22,6 +25,8 @@ public class WeekDayFragment extends Fragment {
     public final static String ARG_DAY = "day";
 
     private String day;
+    private Date date;
+    private static final SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
     private RecyclerView mRecyclerView;
     HourAdapter mAdapter;
 
@@ -44,12 +49,16 @@ public class WeekDayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_weekday, container, false);
 
-        ((TextView)(rootView.findViewById(R.id.day))).setText(day);
+        date = new Date(getArguments().getLong("date"));
+
+        ((TextView)(rootView.findViewById(R.id.dayanddate))).setText(day + ", " + format.format(date));
 
 
         mRecyclerView = rootView.findViewById(R.id.hourlist);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        Log.d(this.getClass().getName(), "onCreateView()");
 
         Hour[] hours = new Hour[24];
         for(int i = 0; i < hours.length; i++) {

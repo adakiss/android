@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:lineSpacingMultiplier="1.2"
-        android:id="@+id/day"/>
+        android:id="@+id/dayanddate"/>
 
     <View
         android:layout_width="match_parent"

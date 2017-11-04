@@ -15,7 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import java.util.Calendar;
 
-import com.dpckou.agoston.timetale.InputFragments.DateSelectorFragment;
+//import com.dpckou.agoston.timetale.InputFragments.DateSelectorFragment;
 
 import static android.R.attr.onClick;
 

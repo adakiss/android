@@ -21,8 +21,6 @@ import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.dpckou.agoston.timetale.R.id.day;
-
 /**
  * Created by agoston on 2017.11.01..
  * It may or may not be used, currently wouldn't want to mess with nested fragments.
