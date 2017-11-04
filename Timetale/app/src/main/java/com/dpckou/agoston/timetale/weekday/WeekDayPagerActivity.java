@@ -1,4 +1,4 @@
-package com.dpckou.agoston.timetale;
+package com.dpckou.agoston.timetale.weekday;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,6 +8,10 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import com.dpckou.agoston.timetale.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.dpckou.agoston.timetale.weekday.WeekDayPagerActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button startButton;
