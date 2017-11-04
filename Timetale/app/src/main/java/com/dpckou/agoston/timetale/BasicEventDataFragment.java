@@ -37,7 +37,7 @@ public class BasicEventDataFragment extends android.support.v4.app.Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_basiceventdata, container, false);
+        view = inflater.inflate(R.layout.fragment_basiceventdata, container, false);
 
         //here to initialize all the views and widgets inside the fragment if needed.
 
@@ -48,10 +48,10 @@ public class BasicEventDataFragment extends android.support.v4.app.Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //finding dem view elements.
-        fromDate = (EditText)getView().findViewById(R.id.fromDate);
-        toDate = (EditText)getView().findViewById(R.id.toDate);
-        fromTime = (EditText)getView().findViewById(R.id.fromTime);
-        toTime = (EditText)getView().findViewById(R.id.toTime);
+        fromDate = (EditText)view.findViewById(R.id.fromDate);
+        toDate = (EditText)view.findViewById(R.id.toDate);
+        fromTime = (EditText)view.findViewById(R.id.fromTime);
+        toTime = (EditText)view.findViewById(R.id.toTime);
 
         fromDate.setOnClickListener(new OnClickListener() {
             @Override
