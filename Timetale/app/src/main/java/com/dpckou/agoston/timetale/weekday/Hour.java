@@ -10,6 +10,9 @@ public class Hour {
     private String event;
 
     public Hour(Integer hour) {
+        if (hour < 0) {
+            throw new IllegalArgumentException("Hour of the day cannot be negative number");
+        }
         this.hour = hour;
     }
 

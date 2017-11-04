@@ -35,4 +35,9 @@ public class HourTest {
         Assert.assertEquals(hour.getEvent(), event);
         Assert.assertTrue(hour.isEventPlanned());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void hourTest3() {
+        hour = new Hour(-5);
+    }
 }
