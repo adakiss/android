@@ -9,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WeekDayPagerActivity extends FragmentActivity {
 
     private static final int NUM_PAGES = 7;
@@ -25,6 +28,8 @@ public class WeekDayPagerActivity extends FragmentActivity {
         mAdapter = new WeekDayPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -48,18 +53,29 @@ public class WeekDayPagerActivity extends FragmentActivity {
 
     private class WeekDayPagerAdapter extends FragmentStatePagerAdapter {
 
+        private List<WeekDayFragment> mFragments;
+
         public WeekDayPagerAdapter(FragmentManager fm) {
             super(fm);
+            mFragments = new ArrayList<>();
+            mFragments.add(WeekDayFragment.create(WeekDay.Monday.toString()));
+            mFragments.add(WeekDayFragment.create(WeekDay.Tuesday.toString()));
+            mFragments.add(WeekDayFragment.create(WeekDay.Wednesday.toString()));
+            mFragments.add(WeekDayFragment.create(WeekDay.Thursday.toString()));
+            mFragments.add(WeekDayFragment.create(WeekDay.Friday.toString()));
+            mFragments.add(WeekDayFragment.create(WeekDay.Saturday.toString()));
+            mFragments.add(WeekDayFragment.create(WeekDay.Sunday.toString()));
         }
 
         @Override
         public Fragment getItem(int position) {
-            return WeekDayFragment.create(WeekDay.values()[position].toString());
+            int index = position%mFragments.size();
+            return mFragments.get(index);
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return 30;
         }
     }
 }
