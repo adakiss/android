@@ -19,6 +19,14 @@ public class DateTime {
         hour = c.get(Calendar.HOUR);
         minute = c.get(Calendar.MINUTE);
     }
+    public DateTime(int year, int month, int day,
+                    int hour, int minute){
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
+    }
 
     private int hour;
     private int minute;
@@ -61,5 +69,32 @@ public class DateTime {
 
     public void setMinute(int minute) {
         this.minute = minute;
+    }
+
+    private static String nullify(int i){
+        String parsed = Integer.toString(i);
+        if(parsed.length() > 1)
+            return parsed;
+        else {
+            String s = '0' + parsed;
+            return s;
+        }
+    }
+
+    public static String formatDate(int year, int month, int day, char separator){
+        //fuck stringbuilder.
+        //TODO maybe don't fuck stringbuilder.
+        if((int)separator == 0){
+            //hopefully this checks for if it is null
+            separator = '.';
+        }
+        return nullify(year) + separator + nullify(month) + separator + nullify(day);
+    }
+
+    public static String formatTime(int hour, int minute, char separator){
+        if((int)separator == 0){
+            separator = ':';
+        }
+        return nullify(hour) + separator + nullify(minute);
     }
 }
