@@ -100,10 +100,18 @@ public class EventActivity extends AppCompatActivity{
                         new DatePickerDialog.OnDateSetListener() {
                             public void onDateSet(DatePicker picker, int year, int month, int day){
                                 month++;
+                                //if we input a value that would go back to the past
                                 _to.setYear(year);
                                 _to.setMonth(month);
                                 _to.setDay(day);
-                                toDate.setText(DateTime.formatDate(year, month, day, '.'));
+                                if(_from.compareTo(_to) == 1){
+                                    //so the _from is less
+                                    _to.setYear(_from.getYear());
+                                    _to.setMonth(_from.getMonth());
+                                    _to.setDay(_from.getDay());
+                                }
+                                toDate.setText(DateTime.formatDate(_to.getYear(),
+                                        _to.getMonth(), _to.getDay(), '.'));
                             }
                         }, _to.getYear(), _to.getMonth(), _to.getDay() );
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -121,7 +129,7 @@ public class EventActivity extends AppCompatActivity{
                             public void onTimeSet(TimePicker picker, int hour, int minute){
                                 fromTime.setText(DateTime.formatTime(hour, minute, ':'));
                                 _from.setHour(hour);
-                                _to.setMinute(minute);
+                                _from.setMinute(minute);
                                 _to.setHour(_from.getHour());
                                 _to.setMinute(_from.getMinute());
                                 toTime.setText(DateTime.formatTime(hour, minute, ':'));
@@ -140,9 +148,14 @@ public class EventActivity extends AppCompatActivity{
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker picker, int hour, int minute){
-                                toTime.setText(DateTime.formatTime(hour, minute,':'));
+
                                 _to.setHour(hour);
                                 _to.setMinute(minute);
+                                if(_from.compareTo(_to) == 1) {
+                                    _to.setHour(_from.getHour());
+                                    _to.setMinute(_from.getMinute());
+                                }
+                                toTime.setText(DateTime.formatTime(_to.getHour(), _to.getMinute(),':'));
                             }
                         }, _to.getHour(), _to.getMinute(),true);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

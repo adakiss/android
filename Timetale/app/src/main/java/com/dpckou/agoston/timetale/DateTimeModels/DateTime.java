@@ -1,4 +1,6 @@
 package com.dpckou.agoston.timetale.DateTimeModels;
+import android.support.annotation.NonNull;
+
 import java.util.Calendar;
 
 /**
@@ -6,7 +8,7 @@ import java.util.Calendar;
  * Utterly basic structure to store the datas for FROM and TO in one place.
  */
 
-public class DateTime {
+public class DateTime implements Comparable<DateTime>{
     private int year;
     private int month;
     private int day;
@@ -96,5 +98,50 @@ public class DateTime {
             separator = ':';
         }
         return nullify(hour) + separator + nullify(minute);
+    }
+
+    public int compareByDate(DateTime o){
+        if(this.year == o.getYear()
+                && this.month == o.getMonth()
+                && this.day == o.getDay())
+            return 0;
+        //in any case this is less -> short circuiting should make do bc of the order.
+        if(this.year < o.getYear()
+                || this.month < o.getMonth()
+                || this.day < o.getDay())
+            return -1;
+        //not equal, not less then greater.
+        return 1;
+    }
+
+    public int compareByTime(DateTime o){
+        if(this.hour == o.getHour() && this.minute == o.getMinute())
+            return 0;
+        //in any case this is less -> short circuiting should make do bc of the order.
+        if(this.hour < o.getHour()
+                || this.minute < o.getMinute())
+            return -1;
+        //not equal, not less then greater.
+        return 1;
+    }
+
+    @Override
+    public int compareTo(@NonNull DateTime dateTime) {
+        //if all equals
+        if(this.year == dateTime.getYear()
+                && this.month == dateTime.getMonth()
+                && this.day == dateTime.getDay()
+                && this.hour == dateTime.getHour()
+                && this.minute == dateTime.getMinute())
+            return 0;
+        //in any case this is less -> short circuiting should make do bc of the order.
+        if(this.year < dateTime.getYear()
+                || this.month < dateTime.getMonth()
+                || this.day < dateTime.getDay()
+                || this.hour < dateTime.getHour()
+                || this.minute < dateTime.getMinute())
+            return -1;
+        //not equal, not less then greater.
+        return 1;
     }
 }
