@@ -15,7 +15,7 @@ import java.sql.Date;
 public class Event {
 
     @PrimaryKey(autoGenerate = true)
-    private int id = 1;
+    private int id;
 
     @ColumnInfo(name = "event_name")
     private String eventName;

@@ -31,7 +31,7 @@ public class EventEntityTest {
     public void setUp() {
         Context ctx = InstrumentationRegistry.getTargetContext();
         mDb = Room.inMemoryDatabaseBuilder(ctx, TimetaleDatabase.class).build();
-        mDao = mDb.getEventDao();
+        mDao = mDb.getDaoInstance();
     }
 
     @Test

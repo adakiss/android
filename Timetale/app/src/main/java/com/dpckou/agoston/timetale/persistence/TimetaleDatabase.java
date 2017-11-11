@@ -9,5 +9,14 @@ import android.arch.persistence.room.RoomDatabase;
 
 @Database(entities = Event.class, version = 1)
 public abstract class TimetaleDatabase extends RoomDatabase {
-    public abstract EventDao getEventDao();
+    protected abstract EventDao getEventDao();
+
+    private static EventDao daoInstance;
+
+    public EventDao getDaoInstance() {
+        if (daoInstance == null) {
+            daoInstance = getEventDao();
+        }
+        return daoInstance;
+    }
 }

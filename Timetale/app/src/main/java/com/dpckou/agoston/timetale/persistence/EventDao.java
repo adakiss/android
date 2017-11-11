@@ -15,9 +15,7 @@ import java.sql.Date;
 @Dao
 public interface EventDao {
 
-
-    //FIXME - this is not the correct query
-    @Query("SELECT * FROM event WHERE event_start <= :start AND event_end >= :end")
+    @Query("SELECT * FROM event WHERE event_start <= :end AND event_end >= :start")
     public Event[] eventsOnDay(long start, long end);
 
     @Insert
@@ -28,4 +26,7 @@ public interface EventDao {
 
     @Delete
     public void deleteEvent(Event event);
+
+    @Query("DELETE FROM event")
+    public void nukeEventTable();
 }
