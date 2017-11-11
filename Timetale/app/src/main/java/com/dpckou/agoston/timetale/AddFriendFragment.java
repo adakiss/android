@@ -1,5 +1,6 @@
 package com.dpckou.agoston.timetale;
 
+import android.content.pm.PackageInstaller;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.FacebookSdk;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -18,7 +20,8 @@ interaction logic to add a new friend into the event.
  */
 public class AddFriendFragment extends Fragment {
 
-    private View view;
+    private View myList;
+    private static String GRAPH_QUERY = "/me/friends?fields=name,profile_pic";
 
     @Nullable
     @Override
@@ -38,16 +41,11 @@ public class AddFriendFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/friends",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        //TODO és mi a faszér nincs benne adat??
-                    }
-                }
-        ).executeAsync();
+        myList = getActivity().findViewById(R.id.myList);
+
+
+
     }
+
+
 }

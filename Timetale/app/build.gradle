@@ -34,23 +34,7 @@ dependencies {
     testCompile "android.arch.persistence.room:testing:1.0.0"
     testCompile "com.android.support.test:runner:0.5"
     // Facebook SDK Core only (Analytics)
-    compile 'com.facebook.android:facebook-core:4.+'
-    // Facebook Login only
-    compile 'com.facebook.android:facebook-login:4.+'
-    // Facebook Share only
-    compile 'com.facebook.android:facebook-share:4.+'
-    // Facebook Places only
-    compile 'com.facebook.android:facebook-places:4.+'
-    // Facbeook Messenger only
-    compile 'com.facebook.android:facebook-messenger:4.+'
-    // Facebook App Links only
-    compile 'com.facebook.android:facebook-applinks:4.+'
-    // Facebook Android SDK (everything)
-    compile 'com.facebook.android:facebook-android-sdk:4.+'
-    // Audience Network SDK. Only versions 4.6.0 and above are available
-    compile 'com.facebook.android:audience-network-sdk:4.+'
-    // Account Kit
-    compile 'com.facebook.android:account-kit-sdk:4.+'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
 repositories {
     // You can also use jcenter if you prefer
