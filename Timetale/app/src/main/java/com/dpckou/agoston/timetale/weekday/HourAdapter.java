@@ -49,6 +49,7 @@ public class HourAdapter extends Adapter<HourAdapter.MyViewHolder> {
             holder.eventTW.setBackgroundColor(Color.GRAY);
         } else {
             holder.eventTW.setText("");
+            holder.eventTW.setBackgroundColor(Color.WHITE);
         }
     }
 
