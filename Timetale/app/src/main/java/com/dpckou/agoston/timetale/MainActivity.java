@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
-
+        /*
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
         // Other app specific specialization
@@ -125,6 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("fb login error: ", exception.toString());
             }
         });
-
+        */
     }
 }

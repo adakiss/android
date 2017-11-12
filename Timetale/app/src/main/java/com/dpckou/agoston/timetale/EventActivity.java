@@ -7,10 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TimePicker;
 
 import com.dpckou.agoston.timetale.CustomListeners.ArgumentedDateListener;
@@ -51,6 +55,7 @@ public class EventActivity extends AppCompatActivity{
     private DateTime _from = new DateTime();
     private DateTime _to = new DateTime();
     Calendar c = Calendar.getInstance();
+    private FrameLayout friendsFrame;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +64,22 @@ public class EventActivity extends AppCompatActivity{
         toDate = (EditText)findViewById(R.id.toDate);
         fromTime = (EditText)findViewById(R.id.fromTime);
         toTime = (EditText)findViewById(R.id.toTime);
+        friendsFrame = findViewById(R.id.friendsList);
+
+        /*
+
+            for now: use the contacts from phone only.
+            or you can just add a string
+        */
 
 
+        ContactFriendsListFragment fragment = ContactFriendsListFragment.newInstance();
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.friendsList, fragment);
+
+        transaction.commit();
 
 
         //the to-s are needed to be implemented separately.
