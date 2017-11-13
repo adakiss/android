@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                TimetaleApplication.get().getDB().getDaoInstance().nukeEventTable();
+                //TimetaleApplication.get().getDB().getDaoInstance().nukeEventTable();
 
-                Event event = new Event();
+                /*Event event = new Event();
                 event.setEventName("TestEventName");
                 event.setEventStart(new Date().getTime());
                 event.setEventEnd(new Date().getTime()+3600000);
-                TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(event);
+                TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(event); */
 
                 Intent startIntent = new Intent(view.getContext(), WeekDayPagerActivity.class);
                 startActivity(startIntent);
