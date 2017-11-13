@@ -1,5 +1,6 @@
 package com.dpckou.agoston.timetale;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -25,7 +26,13 @@ import android.widget.Toast;
 import com.dpckou.agoston.timetale.CustomListeners.ArgumentedDateListener;
 import com.dpckou.agoston.timetale.CustomListeners.ArgumentedTimeListener;
 import com.dpckou.agoston.timetale.DateTimeModels.DateTime;
+import com.dpckou.agoston.timetale.locations.Location;
+import com.dpckou.agoston.timetale.locations.LocationFragment;
 import com.dpckou.agoston.timetale.persistence.Event;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -37,6 +44,9 @@ import java.util.Date;
  */
 
 public class EventActivity extends AppCompatActivity{
+
+    private static final int PLACE_PICKER_REQUEST = 1;
+
     public DateTime get_from() {
         return _from;
     }
@@ -59,6 +69,7 @@ public class EventActivity extends AppCompatActivity{
     private EditText toTime;
     private EditText eventName;
     private EditText description;
+    private Button getLocation;
 
     private Button submit;
     //the two wrappers for the input data.
@@ -78,7 +89,7 @@ public class EventActivity extends AppCompatActivity{
         submit = (Button) findViewById(R.id.submitEvent);
         eventName = (EditText) findViewById(R.id.title);
         description = (EditText) findViewById(R.id.description);
-
+        getLocation = (Button) findViewById(R.id.getLocBut);
         /*
 
             for now: use the contacts from phone only.
@@ -92,7 +103,6 @@ public class EventActivity extends AppCompatActivity{
         transaction.replace(R.id.friendsList, fragment);
 
         transaction.commit();
-
 
         //the to-s are needed to be implemented separately.
         /*
@@ -225,6 +235,23 @@ public class EventActivity extends AppCompatActivity{
                 startActivity(startIntent);
             }
         });
+
+        getLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    Intent intent = builder.build(EventActivity.this);
+                    startActivityForResult(intent,PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         /*
         fromDate.setOnClickListener(HookupDate(_from,fromDate));
         fromTime.setOnClickListener(HookupTime(_from,fromTime));
@@ -233,8 +260,14 @@ public class EventActivity extends AppCompatActivity{
         */
     }
 
-    private void loadMainActivity(){
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private View.OnClickListener HookupDate(final DateTime dateTime, final EditText date){

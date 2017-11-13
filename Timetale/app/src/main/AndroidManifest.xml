@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".weekday.WeekDayPagerActivity"></activity>
         <activity android:name=".EventActivity"></activity>
+        <activity android:name=".locations.Location"></activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
@@ -34,11 +35,16 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDwRvDrtU-vwk80sOKzKct1gqZktUg7UfQ"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <meta-data android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_app_id"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
 
 
 

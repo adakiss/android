@@ -35,6 +35,7 @@ dependencies {
     testCompile "com.android.support.test:runner:0.5"
     // Facebook SDK Core only (Analytics)
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.google.android.gms:play-services:11.4.2'
 }
 repositories {
     // You can also use jcenter if you prefer
