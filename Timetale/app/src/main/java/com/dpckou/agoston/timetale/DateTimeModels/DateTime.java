@@ -1,7 +1,10 @@
 package com.dpckou.agoston.timetale.DateTimeModels;
 import android.support.annotation.NonNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by agoston on 2017.11.04..
@@ -84,8 +87,6 @@ public class DateTime implements Comparable<DateTime>{
     }
 
     public static String formatDate(int year, int month, int day, char separator){
-        //fuck stringbuilder.
-        //TODO maybe don't fuck stringbuilder.
         if((int)separator == 0){
             //hopefully this checks for if it is null
             separator = '.';
@@ -143,5 +144,19 @@ public class DateTime implements Comparable<DateTime>{
             return -1;
         //not equal, not less then greater.
         return 1;
+    }
+
+    public long generateLong(){
+        //TODO has to be tested and verified.
+        String myDate = nullify(hour) + "-" + nullify(minute) + "-" +
+                nullify(day) + "-" + nullify(month) + "-" + nullify(year);
+        SimpleDateFormat sf = new SimpleDateFormat("HH-mm-dd-MM-yyyy");
+        Date d = new Date();
+        try {
+            d = sf.parse(myDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return d.getTime();
     }
 }

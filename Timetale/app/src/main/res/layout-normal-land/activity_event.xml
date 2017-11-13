@@ -5,8 +5,8 @@
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
     android:columnCount="2"
-    android:rowCount="4">
-    <TextView
+    android:rowCount="6">
+    <EditText
         android:layout_gravity="fill_horizontal"
         android:id="@+id/title"
         android:layout_row="0"
@@ -14,8 +14,8 @@
         android:layout_width="0dp"
         android:layout_columnWeight="1"
         android:layout_height="wrap_content"
-        android:text="Event action"
-        android:textSize="35dp"
+        android:hint="Event name"
+        android:textSize="20sp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center" />
@@ -110,10 +110,30 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="Get location"/>
+    <EditText
+        android:layout_gravity="fill_horizontal"
+        android:id="@+id/description"
+        android:layout_row="4"
+        android:layout_column="0"
+        android:layout_width="0dp"
+        android:layout_columnWeight="1"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:gravity="center" />
+    <Button
+        android:id="@+id/submitEvent"
+        android:layout_gravity="fill_horizontal"
+        android:layout_row="5"
+        android:layout_column="1"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="Submit event"/>
     <FrameLayout
         android:layout_gravity="fill"
         android:layout_row="0"
-        android:layout_rowSpan="4"
+        android:layout_rowSpan="5"
         android:layout_column="1"
         android:id="@+id/friendsList"
         android:layout_width="0dp"

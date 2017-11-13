@@ -2,6 +2,8 @@ package com.dpckou.agoston.timetale;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,15 +13,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.dpckou.agoston.timetale.CustomListeners.ArgumentedDateListener;
 import com.dpckou.agoston.timetale.CustomListeners.ArgumentedTimeListener;
 import com.dpckou.agoston.timetale.DateTimeModels.DateTime;
+import com.dpckou.agoston.timetale.persistence.Event;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -51,6 +57,10 @@ public class EventActivity extends AppCompatActivity{
     private EditText toDate;
     private EditText fromTime;
     private EditText toTime;
+    private EditText eventName;
+    private EditText description;
+
+    private Button submit;
     //the two wrappers for the input data.
     private DateTime _from = new DateTime();
     private DateTime _to = new DateTime();
@@ -65,13 +75,15 @@ public class EventActivity extends AppCompatActivity{
         fromTime = (EditText)findViewById(R.id.fromTime);
         toTime = (EditText)findViewById(R.id.toTime);
         friendsFrame = findViewById(R.id.friendsList);
+        submit = (Button) findViewById(R.id.submitEvent);
+        eventName = (EditText) findViewById(R.id.title);
+        description = (EditText) findViewById(R.id.description);
 
         /*
 
             for now: use the contacts from phone only.
             or you can just add a string
         */
-
 
         ContactFriendsListFragment fragment = ContactFriendsListFragment.newInstance();
 
@@ -181,6 +193,38 @@ public class EventActivity extends AppCompatActivity{
                 dialog.show();
             }
         });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO add location and people to the event.
+                Context context = getApplicationContext();
+                CharSequence text = "New event added.";
+                int duration = Toast.LENGTH_SHORT;
+
+
+                try{
+                    Event e = new Event();
+                    e.setEventStart(_from.generateLong());
+                    e.setEventEnd(_to.generateLong());
+                    e.setEventName(eventName.getText().toString());
+                    Log.d("EVENT START",Long.toString(e.getEventStart()));
+                    TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(e);
+
+                }catch(Exception ex){
+                    text = "Invalid input.";
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    return;
+                }
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                Intent startIntent = new Intent(view.getContext(), MainActivity.class);
+                startActivity(startIntent);
+            }
+        });
         /*
         fromDate.setOnClickListener(HookupDate(_from,fromDate));
         fromTime.setOnClickListener(HookupTime(_from,fromTime));
@@ -188,6 +232,11 @@ public class EventActivity extends AppCompatActivity{
         toTime.setOnClickListener(HookupTime(_to,toTime));
         */
     }
+
+    private void loadMainActivity(){
+
+    }
+
     private View.OnClickListener HookupDate(final DateTime dateTime, final EditText date){
         return new View.OnClickListener(){
             public void onClick(View view){

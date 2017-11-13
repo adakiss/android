@@ -53,6 +53,8 @@ public class ContactFriendsListFragment extends Fragment {
                 ContactFriend fr = (ContactFriend) adapter.getItem(position);
                 addToSelected(fr);
                 //TODO: make it switch some BG colour when clicked. use getViewByPosition.
+                View v = getViewByPosition(position,listView);
+                colorizeFriendBg(v,fr);
             }
         });
     }
@@ -64,6 +66,14 @@ public class ContactFriendsListFragment extends Fragment {
     private void addToSelected(ContactFriend friend){
         //in this case I just switched the selection bool.
         friend.setSelected(!friend.isSelected());
+    }
+
+    private void colorizeFriendBg(View v, ContactFriend friend){
+        if(friend.isSelected()){
+            v.setBackgroundColor(0x993399ff);
+        }else{
+            v.setBackgroundColor(0x00000000);
+        }
     }
 
     private View getViewByPosition(int pos, ListView listView) {

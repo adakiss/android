@@ -6,7 +6,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.sql.Date;
-
+//TODO: add list of people, add description, add location.
 /**
  * Created by kissa on 2017. 11. 09..
  */
