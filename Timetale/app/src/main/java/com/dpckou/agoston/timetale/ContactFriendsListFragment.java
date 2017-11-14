@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ContactFriendsListFragment extends Fragment {
     ListView listView;
-
+    private static final int MY_PERMISSIONS_READ_CONTACTS = 1000;
     List<ContactFriend> friends = new ArrayList<>();
 
     @Nullable
@@ -43,8 +43,12 @@ public class ContactFriendsListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         askPermission();
-        getContactList();
+        //getContactList();
 
+
+    }
+
+    private void setAdapterToList(){
         final AddContactFriendAdapter adapter = new AddContactFriendAdapter(friends);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,25 +92,36 @@ public class ContactFriendsListFragment extends Fragment {
         }
     }
 
-    private void loadListWithData(ContactFriend selectedFriend){
-        AddContactFriendFragment fragment =
-                AddContactFriendFragment.newInstance(selectedFriend);
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.oneFriend, fragment);
-        ft.commit();
-    }
     private void askPermission(){
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this.getActivity(),new String[]{
                     Manifest.permission.READ_CONTACTS
-            },1000);
+            },MY_PERMISSIONS_READ_CONTACTS);
 
             return;
+        }else{
+            getContactList();
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
+        switch(requestCode){
+            case MY_PERMISSIONS_READ_CONTACTS:{
+                if(grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    getContactList();
+                    Log.d("PERMISSION_GRANTED", "Contacts were loaded.");
+                }
+                if(grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_DENIED){
+                    Log.d("PERMISSION_DENIED","Do some shit, e.g. add a textbox for strings.");
+                }
+            }
+        }
+    }
+
     private void getContactList() {
 
         ContentResolver cr = getContext().getContentResolver();
@@ -124,6 +139,7 @@ public class ContactFriendsListFragment extends Fragment {
                 friends.add(cf);
                 Log.d("newContactFriend", cf.getNickName());
             }
+            setAdapterToList();
         }else Log.d("newContactFriend", "The current query cursor was null.");
         if(cur!=null){
             cur.close();

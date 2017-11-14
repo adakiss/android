@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,6 +38,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by agoston on 2017.11.01..
@@ -258,6 +260,17 @@ public class EventActivity extends AppCompatActivity{
         toDate.setOnClickListener(HookupDate(_to,toDate));
         toTime.setOnClickListener(HookupTime(_to,toTime));
         */
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
