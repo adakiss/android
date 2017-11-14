@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dpckou.agoston.timetale.R;
 import com.dpckou.agoston.timetale.TimetaleApplication;
@@ -73,7 +74,14 @@ public class WeekDayFragment extends Fragment {
         Event[] events = TimetaleApplication.get().getDB().getDaoInstance().eventsOnDay(dayStart, dayEnd);
         Hour[] hours = converter.convert(events, dayStart, dayEnd);
 
-        mAdapter = new HourAdapter(hours);
+        RecyclerViewOnClickListener listener = new RecyclerViewOnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        mAdapter = new HourAdapter(hours, listener);
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;

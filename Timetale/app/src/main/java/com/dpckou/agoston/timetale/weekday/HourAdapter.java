@@ -18,10 +18,12 @@ import com.dpckou.agoston.timetale.R;
 
 public class HourAdapter extends Adapter<HourAdapter.MyViewHolder> {
 
+    private RecyclerViewOnClickListener mListener;
     private Hour[] hours;
 
-    public HourAdapter(Hour[] hours) {
+    public HourAdapter(Hour[] hours, RecyclerViewOnClickListener listener) {
         this.hours = hours;
+        mListener = listener;
 
         //for(int i = 0; i < hours.length; i++) {
         //    hours[i] = new Hour(i++);
@@ -31,7 +33,7 @@ public class HourAdapter extends Adapter<HourAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_hour, parent, false);
-        return new MyViewHolder(view);
+        return new MyViewHolder(view, mListener);
     }
 
     @Override
@@ -53,15 +55,24 @@ public class HourAdapter extends Adapter<HourAdapter.MyViewHolder> {
         }
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private RecyclerViewOnClickListener listener;
 
         TextView hourTW;
         TextView eventTW;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView, RecyclerViewOnClickListener listener) {
             super(itemView);
             this.hourTW = itemView.findViewById(R.id.hour);
             this.eventTW = itemView.findViewById(R.id.event);
+            this.listener = listener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view, getAdapterPosition());
         }
     }
 }
