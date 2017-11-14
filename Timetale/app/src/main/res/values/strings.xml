@@ -6,4 +6,8 @@
     <string name="facebook_app_id">872223006270127</string>
     <string name="fb_login_protocol_scheme">fb872223006270127</string>
     <string name="fb_myFriends_httpReq">/me/friends</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_event_card">EventCardActivity</string>
 </resources>
