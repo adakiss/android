@@ -7,10 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,17 +26,24 @@ import android.widget.Toast;
 import com.dpckou.agoston.timetale.CustomListeners.ArgumentedDateListener;
 import com.dpckou.agoston.timetale.CustomListeners.ArgumentedTimeListener;
 import com.dpckou.agoston.timetale.DateTimeModels.DateTime;
-import com.dpckou.agoston.timetale.locations.Location;
-import com.dpckou.agoston.timetale.locations.LocationFragment;
 import com.dpckou.agoston.timetale.persistence.Event;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.sql.Time;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,9 +51,19 @@ import java.util.List;
  * It may or may not be used, currently wouldn't want to mess with nested fragments.
  */
 
-public class EventActivity extends AppCompatActivity{
+public class EventActivity extends AppCompatActivity implements OnMapReadyCallback{
 
-    private static final int PLACE_PICKER_REQUEST = 1;
+    private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 2;
+
+    private Place selectedPlace;
+    private GoogleMap mMap;
+    private Activity _me;
+
+    public Event getMY_EVENT() {
+        return MY_EVENT;
+    }
+
+    private Event MY_EVENT;
 
     public DateTime get_from() {
         return _from;
@@ -71,7 +87,7 @@ public class EventActivity extends AppCompatActivity{
     private EditText toTime;
     private EditText eventName;
     private EditText description;
-    private Button getLocation;
+    private FrameLayout gps;
 
     private Button submit;
     //the two wrappers for the input data.
@@ -79,7 +95,7 @@ public class EventActivity extends AppCompatActivity{
     private DateTime _to = new DateTime();
     Calendar c = Calendar.getInstance();
     private FrameLayout friendsFrame;
-
+    private LocationManager locationManager;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
@@ -91,7 +107,45 @@ public class EventActivity extends AppCompatActivity{
         submit = (Button) findViewById(R.id.submitEvent);
         eventName = (EditText) findViewById(R.id.title);
         description = (EditText) findViewById(R.id.description);
-        getLocation = (Button) findViewById(R.id.getLocBut);
+        gps = findViewById(R.id.gps);
+        _me = this;
+
+        MY_EVENT = new Event();
+
+        //new shit
+        if(gps != null){
+            MapFragment mapFragment = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.gps);
+            mapFragment.getMapAsync(this);
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        }
+
+
+        PlaceAutocompleteFragment autocompleteFragment =
+                (PlaceAutocompleteFragment) getFragmentManager()
+                        .findFragmentById(R.id.place_autocomplete_fragment);
+        if(autocompleteFragment != null){
+
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(Place place) {
+                    Log.i("PLACE",  place.getName().toString());
+                    selectedPlace = place;
+                    if(gps != null){
+                        toSelectedLocation();
+                    }
+                    Toast toast = Toast.makeText(_me, place.getName(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+                @Override
+                public void onError(Status status) {
+                    Log.i("PLACE", "ERROR WHEN AUTO COMPLETE PLACE");
+                }
+            });
+        }else{
+            Log.i("ACF", "fragment was null :(");
+        }
         /*
 
             for now: use the contacts from phone only.
@@ -107,11 +161,6 @@ public class EventActivity extends AppCompatActivity{
         transaction.commit();
 
         //the to-s are needed to be implemented separately.
-        /*
-        the reason is, we need the data set from the _from-s. see, we can't
-        go back in time, so anything newer is not allowed.
-        TODO: if possible, make it less kókány :)
-         */
         fromDate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -120,14 +169,24 @@ public class EventActivity extends AppCompatActivity{
                         new DatePickerDialog.OnDateSetListener() {
                             public void onDateSet(DatePicker picker, int year, int month, int day){
                                 month++;
-                                _from.setYear(year);
-                                _from.setMonth(month);
-                                _from.setDay(day);
-                                fromDate.setText(DateTime.formatDate(year, month, day, '.'));
+                                DateTime today = new DateTime();
+                                if(_from.compareTo(today) == 1){
+                                    _from.setYear(today.getYear());
+                                    _from.setMonth(today.getMonth());
+                                    _from.setDay(today.getDay());
+                                }else{
+                                    _from.setYear(year);
+                                    _from.setMonth(month);
+                                    _from.setDay(day);
+                                }
+
+                                fromDate.setText(DateTime.formatDate(_from.getYear(), _from.getMonth(),
+                                        _from.getDay(), '.'));
                                 _to.setDay(_from.getDay());
                                 _to.setYear(_from.getYear());
                                 _to.setMonth(_from.getMonth());
-                                toDate.setText(DateTime.formatDate(year, month, day, '.'));
+                                toDate.setText(DateTime.formatDate(_from.getYear(), _from.getMonth(),
+                                        _from.getDay(), '.'));
                             }
                         }, _from.getYear(), _from.getMonth(), _from.getDay() );
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -216,12 +275,11 @@ public class EventActivity extends AppCompatActivity{
 
 
                 try{
-                    Event e = new Event();
-                    e.setEventStart(_from.generateLong());
-                    e.setEventEnd(_to.generateLong());
-                    e.setEventName(eventName.getText().toString());
-                    Log.d("EVENT START",Long.toString(e.getEventStart()));
-                    TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(e);
+                    MY_EVENT.setEventStart(_from.generateLong());
+                    MY_EVENT.setEventEnd(_to.generateLong());
+                    MY_EVENT.setEventName(eventName.getText().toString());
+                    Log.d("EVENT START",Long.toString(MY_EVENT.getEventStart()));
+                    TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
 
                 }catch(Exception ex){
                     text = "Invalid input.";
@@ -237,29 +295,41 @@ public class EventActivity extends AppCompatActivity{
                 startActivity(startIntent);
             }
         });
-
+        //commented out, no longer needed.
+        /*
         getLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
                 try {
-                    Intent intent = builder.build(EventActivity.this);
-                    startActivityForResult(intent,PLACE_PICKER_REQUEST);
+                    Intent intent =
+                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                    .build(_me);
+                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
                 } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
+                    // TODO: load an EditText instead.
+                    Log.i("ERROR", "ERROR WHEN PLACE AUTO COMPLETE.");
                 } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
+                    // TODO: Handle the error.
+                    Log.i("ERROR", "ERROR WHEN PLACE AUTO COMPLETE.");
                 }
+
             }
         });
-
+*/
         /*
         fromDate.setOnClickListener(HookupDate(_from,fromDate));
         fromTime.setOnClickListener(HookupTime(_from,fromTime));
         toDate.setOnClickListener(HookupDate(_to,toDate));
         toTime.setOnClickListener(HookupTime(_to,toTime));
         */
+    }
+    LatLng sydney = new LatLng(-34, 151);
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     @Override
@@ -273,12 +343,40 @@ public class EventActivity extends AppCompatActivity{
         }
     }
 
+    private void toSelectedLocation() {
+        mMap.animateCamera(
+                CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
+                        .target(selectedPlace.getLatLng())
+                        .zoom(10f)
+                        .tilt(45)
+                        .bearing(33)
+                        .build()
+                ), new GoogleMap.CancelableCallback() {
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_PICKER_REQUEST) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(this, data);
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                //TODO save the location to String.
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                Log.i("SELECTED_PLACE", "Place: " + place.getName());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(this, data);
+                Log.i("SELECTED_PLACE", status.getStatusMessage());
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
             }
         }
     }

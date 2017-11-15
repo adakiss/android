@@ -1,6 +1,7 @@
 package com.dpckou.agoston.timetale.weekday;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dpckou.agoston.timetale.EventCards.EventCardActivity;
+import com.dpckou.agoston.timetale.EventCards.SelectedEventActivity;
 import com.dpckou.agoston.timetale.R;
 import com.dpckou.agoston.timetale.TimetaleApplication;
 import com.dpckou.agoston.timetale.converter.EventsOfDayConverter;
@@ -71,13 +74,18 @@ public class WeekDayFragment extends Fragment {
         long dayStart = getDayStart();
         long dayEnd = getDayEnd();
 
-        Event[] events = TimetaleApplication.get().getDB().getDaoInstance().eventsOnDay(dayStart, dayEnd);
-        Hour[] hours = converter.convert(events, dayStart, dayEnd);
+        //made this two final.
+        final Event[] events = TimetaleApplication.get().getDB().getDaoInstance().eventsOnDay(dayStart, dayEnd);
+        final Hour[] hours = converter.convert(events, dayStart, dayEnd);
 
         RecyclerViewOnClickListener listener = new RecyclerViewOnClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_SHORT).show();
+                //TODO make it BUN DEM
+                Intent i = new Intent(view.getContext(), SelectedEventActivity.class);
+                //i.putExtra(EventCardActivity.TITLE_TAG,hours[position].getEvent());
+                startActivity(i);
             }
         };
 

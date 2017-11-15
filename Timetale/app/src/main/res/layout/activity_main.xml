@@ -22,13 +22,5 @@
         tools:layout_editor_absoluteY="16dp"
         tools:layout_editor_absoluteX="235dp"
         android:layout_toRightOf="@id/startButton"/>
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:layout_below="@+id/startButton"/>
 
 </RelativeLayout>

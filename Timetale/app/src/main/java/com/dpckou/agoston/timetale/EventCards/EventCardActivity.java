@@ -45,8 +45,8 @@ public class EventCardActivity extends AppCompatActivity {
     private TextView description;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_card);
 
         title = findViewById(R.id.title);
@@ -68,20 +68,26 @@ public class EventCardActivity extends AppCompatActivity {
         });
 
         Intent _creator = getIntent();
-        title.setText(_creator.getStringExtra(TITLE_TAG));
-        from.setText(_creator.getStringExtra(FROM_TAG));
-        to.setText(_creator.getStringExtra(TO_TAG));
-        location.setText(_creator.getStringExtra(LOCATION_TAG));
-        description.setText(_creator.getStringExtra(DESCRIPTION_TAG));
+        try{
+            title.setText(_creator.getStringExtra(TITLE_TAG));
 
-        //TODO revise this shit
-        String[] items = _creator.getStringArrayExtra(FRIENDS_TAG);
+            from.setText(_creator.getStringExtra(FROM_TAG));
+            to.setText(_creator.getStringExtra(TO_TAG));
+            location.setText(_creator.getStringExtra(LOCATION_TAG));
+            description.setText(_creator.getStringExtra(DESCRIPTION_TAG));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, items);
-        if(adapter != null && adapter.getCount() > 0){
-            friends.setAdapter(adapter);
-        }else Log.d("EVENTCARD_ADAPTER", "The retrieved friends list was null or empty.");
+            //TODO revise this shit
+            String[] items = _creator.getStringArrayExtra(FRIENDS_TAG);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, items);
+            if(adapter != null && adapter.getCount() > 0){
+                friends.setAdapter(adapter);
+            }else Log.d("EVENTCARD_ADAPTER", "The retrieved friends list was null or empty.");
+        }catch(Exception ex){
+            Log.d("Event card error", Log.getStackTraceString(ex));
+        }
+
 
     }
 

@@ -14,15 +14,6 @@ import com.dpckou.agoston.timetale.persistence.Event;
 import com.dpckou.agoston.timetale.persistence.EventDao;
 import com.dpckou.agoston.timetale.persistence.TimetaleDatabase;
 import com.dpckou.agoston.timetale.weekday.WeekDayPagerActivity;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startButton;
     private Button testEventData;
-    private LoginButton loginButton;
-
-    private AccessToken FB_accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
