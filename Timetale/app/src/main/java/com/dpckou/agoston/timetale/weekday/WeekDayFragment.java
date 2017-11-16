@@ -82,7 +82,7 @@ public class WeekDayFragment extends Fragment {
 
         RecyclerViewOnClickListener listener = new RecyclerViewOnClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(final View view, int position) {
                 final CharSequence[] eventsInHour = hours[position].isEventPlanned() ? hours[position].getEvent().split(", ") : null;
                 if (eventsInHour != null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -93,6 +93,13 @@ public class WeekDayFragment extends Fragment {
                             for(Event e : events) {
                                 if(e.getEventName().equals(eventsInHour[i])) {
                                     Toast.makeText(getContext(), "Event: " + e.getEventName(), Toast.LENGTH_SHORT).show();
+                                    Intent myIntent = new Intent(view.getContext(), SelectedEventActivity.class);
+                                    myIntent.putExtra(EventCardActivity.TITLE_TAG, e.getEventName());
+                                    myIntent.putExtra(EventCardActivity.DESCRIPTION_TAG, e.getEventDescription());
+                                    myIntent.putStringArrayListExtra(EventCardActivity.FRIENDS_TAG, e.getFriends());
+                                    myIntent.putExtra(EventCardActivity.FROM_TAG, new Date(e.getEventStart()).toString());
+                                    myIntent.putExtra(EventCardActivity.TO_TAG, new Date(e.getEventEnd()).toString());
+                                    startActivity(myIntent);
                                 }
                             }
                         }

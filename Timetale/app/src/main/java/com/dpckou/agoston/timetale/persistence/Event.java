@@ -6,6 +6,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 //TODO: add list of people, add description, add location.
@@ -111,8 +112,12 @@ public class Event {
         this.eventFriends = friendString;
     }
 
-    public List<String> getFriends() {
-        return Arrays.asList(eventFriends.split(","));
+    public ArrayList<String> getFriends() {
+        if(this.eventFriends != null) {
+            return new ArrayList<String>(Arrays.asList(eventFriends.split(",")));
+        } else {
+            return new ArrayList<String>();
+        }
     }
 
     public void setEventEnd(long eventEnd) {
