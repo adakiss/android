@@ -1,6 +1,8 @@
 package com.dpckou.agoston.timetale.weekday;
 
+import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -81,11 +83,32 @@ public class WeekDayFragment extends Fragment {
         RecyclerViewOnClickListener listener = new RecyclerViewOnClickListener() {
             @Override
             public void onClick(View view, int position) {
+                final CharSequence[] eventsInHour = hours[position].isEventPlanned() ? hours[position].getEvent().split(", ") : null;
+                if (eventsInHour != null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Events");
+                    builder.setItems(eventsInHour, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            for(Event e : events) {
+                                if(e.getEventName().equals(eventsInHour[i])) {
+                                    Toast.makeText(getContext(), "Event: " + e.getEventName(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
+                    builder.show();
+                } else {
+                    return;
+                }
+
+                /*
                 //Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_SHORT).show();
                 //TODO make it BUN DEM
                 Intent i = new Intent(view.getContext(), SelectedEventActivity.class);
                 //i.putExtra(EventCardActivity.TITLE_TAG,hours[position].getEvent());
                 startActivity(i);
+                */
             }
         };
 

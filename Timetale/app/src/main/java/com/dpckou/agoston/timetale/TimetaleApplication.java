@@ -31,7 +31,7 @@ public class TimetaleApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        database = Room.databaseBuilder(getApplicationContext(), TimetaleDatabase.class, DB_NAME).allowMainThreadQueries().build();
+        database = Room.databaseBuilder(getApplicationContext(), TimetaleDatabase.class, DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
         instance=this;
     }
