@@ -29,11 +29,8 @@ public class Event {
     @ColumnInfo(name = "event_end")
     private long eventEnd;
 
-    @ColumnInfo(name = "event_loc_lat")
-    private double eventLocationLat;
-
-    @ColumnInfo(name = "event_loc_lon")
-    private double getEventLocationLon;
+    @ColumnInfo(name = "event_location")
+    private String eventLocation;
 
     @ColumnInfo(name = "event_description")
     private String eventDescription;
@@ -69,20 +66,12 @@ public class Event {
         return eventEnd;
     }
 
-    public double getEventLocationLat() {
-        return eventLocationLat;
+    public String getEventLocation() {
+        return eventLocation;
     }
 
-    public void setEventLocationLat(double eventLocationLat) {
-        this.eventLocationLat = eventLocationLat;
-    }
-
-    public double getGetEventLocationLon() {
-        return getEventLocationLon;
-    }
-
-    public void setGetEventLocationLon(double getEventLocationLon) {
-        this.getEventLocationLon = getEventLocationLon;
+    public void setEventLocation(String eventLocation) {
+        this.eventLocation = eventLocation;
     }
 
     public String getEventDescription() {
