@@ -36,6 +36,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -114,10 +115,20 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
         //new shit
         if(gps != null){
+            /*
             MapFragment mapFragment = (MapFragment) getFragmentManager()
                     .findFragmentById(R.id.gps);
             mapFragment.getMapAsync(this);
+            */
+
+            GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+            MapFragment _mapFragment = MapFragment.newInstance(options);
+            _mapFragment.getMapAsync(this);
             locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            android.app.FragmentTransaction tr = getFragmentManager().beginTransaction();
+            tr.replace(R.id.gps,_mapFragment);
+            tr.addToBackStack(null);
+            tr.commit();
         }
 
 

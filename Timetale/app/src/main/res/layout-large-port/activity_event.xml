@@ -154,8 +154,11 @@
         >
     </FrameLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/gps"
+        map:cameraZoom="13"
+        map:mapType="normal"
+        map:liteMode="true"
         android:layout_gravity="fill"
         android:layout_row="5"
         android:layout_columnSpan="2"
@@ -165,7 +168,6 @@
         android:layout_height="0dp"
         android:layout_rowWeight="0.4"
         android:name="com.google.android.gms.maps.MapFragment"
-        tools:context="com.dpckou.agoston.tiletale.EventActivity"
         >
     </fragment>
 </GridLayout>
