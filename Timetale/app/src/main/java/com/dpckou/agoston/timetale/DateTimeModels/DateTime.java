@@ -33,6 +33,16 @@ public class DateTime implements Comparable<DateTime>{
         this.minute = minute;
     }
 
+    public DateTime(Date d){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        this.year = cal.get(Calendar.YEAR);
+        this.month = cal.get(Calendar.MONTH);
+        this.day = cal.get(Calendar.DAY_OF_MONTH);
+        this.hour = cal.get(Calendar.HOUR);
+        this.minute = cal.get(Calendar.MINUTE);
+    }
+
     private int hour;
     private int minute;
 
@@ -159,4 +169,32 @@ public class DateTime implements Comparable<DateTime>{
         }
         return d.getTime();
     }
+
+    /**
+     * String[]'s 0: date, 1:time.
+     * @param input the input in milliseconds
+     * @return a String[]
+     */
+    public static String[] parseLong(long input){
+        //input is in milliseconds, no need to multiply further.
+        Date date = new Date(input);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        DateTime dateTime = new DateTime(cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH),
+                cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE));
+        String[] s = new String[2];
+
+        //s[0] -> date
+        //s[1] -> time, both are converted to string.
+
+        s[0] = formatDate(dateTime.getYear(), dateTime.getMonth(), dateTime.getDay(),
+                '.');
+        s[1] = formatTime(dateTime.getHour(), dateTime.getMinute(), ':');
+        return s;
+    }
+
+
 }

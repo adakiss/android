@@ -92,13 +92,15 @@ public class WeekDayFragment extends Fragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             for(Event e : events) {
                                 if(e.getEventName().equals(eventsInHour[i])) {
+                                    //FIXME simpler to pass the event itself instead of its elements? :(
                                     Toast.makeText(getContext(), "Event: " + e.getEventName(), Toast.LENGTH_SHORT).show();
                                     Intent myIntent = new Intent(view.getContext(), SelectedEventActivity.class);
-                                    myIntent.putExtra(EventCardActivity.TITLE_TAG, e.getEventName());
-                                    myIntent.putExtra(EventCardActivity.DESCRIPTION_TAG, e.getEventDescription());
-                                    myIntent.putStringArrayListExtra(EventCardActivity.FRIENDS_TAG, e.getFriends());
-                                    myIntent.putExtra(EventCardActivity.FROM_TAG, new Date(e.getEventStart()).toString());
-                                    myIntent.putExtra(EventCardActivity.TO_TAG, new Date(e.getEventEnd()).toString());
+                                    myIntent.putExtra(SelectedEventActivity.TITLE_TAG, e.getEventName());
+                                    myIntent.putExtra(SelectedEventActivity.LOCATION_TAG, e.getEventLocation());
+                                    myIntent.putExtra(SelectedEventActivity.DESCRIPTION_TAG, e.getEventDescription());
+                                    myIntent.putStringArrayListExtra(SelectedEventActivity.FRIENDS_TAG, e.getFriends());
+                                    myIntent.putExtra(SelectedEventActivity.FROM_TAG, e.getEventStart());
+                                    myIntent.putExtra(SelectedEventActivity.TO_TAG, e.getEventEnd());
                                     startActivity(myIntent);
                                 }
                             }

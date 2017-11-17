@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.dpckou.agoston.timetale.EventCards.SelectedEventActivity;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,7 +97,7 @@ public class Event {
         for(String s : friends) {
             friendString += s;
             if(friends.indexOf(s) != friends.size()-1 ) {
-                friendString += ",";
+                friendString += SelectedEventActivity.NAMES_SEPARATOR;
             }
         }
         this.eventFriends = friendString;

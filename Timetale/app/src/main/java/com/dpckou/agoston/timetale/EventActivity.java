@@ -44,6 +44,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -89,6 +90,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private EditText eventName;
     private EditText description;
     private FrameLayout gps;
+    private ContactFriendsListFragment contactFriendsListFragment;
 
     private Button submit;
     //the two wrappers for the input data.
@@ -163,11 +165,11 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             or you can just add a string
         */
 
-        ContactFriendsListFragment fragment = ContactFriendsListFragment.newInstance();
+        contactFriendsListFragment = ContactFriendsListFragment.newInstance();
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.friendsList, fragment);
+        transaction.replace(R.id.friendsList, contactFriendsListFragment);
 
         transaction.commit();
 
@@ -289,7 +291,18 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     MY_EVENT.setEventStart(_from.generateLong());
                     MY_EVENT.setEventEnd(_to.generateLong());
                     MY_EVENT.setEventName(eventName.getText().toString());
-                    Log.d("EVENT START",Long.toString(MY_EVENT.getEventStart()));
+                    MY_EVENT.setEventLocation(selectedPlace.getName().toString());
+                    MY_EVENT.setEventDescription(description.getText().toString());
+
+                    List<String> _friends = new ArrayList<>();
+                    //missing fckn LINQ :(
+                    for (ContactFriend f : contactFriendsListFragment.friends){
+                        if(f.isSelected()){
+                            _friends.add(f.getNickName());
+                        }
+                    }
+                    MY_EVENT.setEventFriends(_friends);
+
                     TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
 
                 }catch(Exception ex){
