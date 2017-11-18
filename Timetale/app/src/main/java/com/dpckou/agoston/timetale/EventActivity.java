@@ -47,6 +47,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+//TODO creating/modifying an event should not work exactly the same because sometimes
+// it creates a second entry of the event (NEW - INSERT / MODIFY - UPDATE)
+
 /**
  * Created by agoston on 2017.11.01..
  * It may or may not be used, currently wouldn't want to mess with nested fragments.
@@ -291,7 +294,9 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     MY_EVENT.setEventStart(_from.generateLong());
                     MY_EVENT.setEventEnd(_to.generateLong());
                     MY_EVENT.setEventName(eventName.getText().toString());
-                    MY_EVENT.setEventLocation(selectedPlace.getName().toString());
+                    if (selectedPlace != null) {
+                        MY_EVENT.setEventLocation(selectedPlace.getName().toString());
+                    }
                     MY_EVENT.setEventDescription(description.getText().toString());
 
                     List<String> _friends = new ArrayList<>();

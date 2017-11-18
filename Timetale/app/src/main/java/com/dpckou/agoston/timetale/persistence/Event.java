@@ -11,7 +11,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-//TODO: add list of people, add description, add location.
 /**
  * Created by kissa on 2017. 11. 09..
  */
