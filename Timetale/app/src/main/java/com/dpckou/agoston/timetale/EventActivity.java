@@ -16,17 +16,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import com.dpckou.agoston.timetale.CustomListeners.ArgumentedDateListener;
-import com.dpckou.agoston.timetale.CustomListeners.ArgumentedTimeListener;
 import com.dpckou.agoston.timetale.DateTimeModels.DateTime;
 import com.dpckou.agoston.timetale.persistence.Event;
+import com.dpckou.agoston.timetale.weekday.EventBundle;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
@@ -98,10 +97,13 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private DateTime _to = new DateTime();
     Calendar c = Calendar.getInstance();
     private FrameLayout friendsFrame;
+    MapFragment _mapFragment;
+    PlaceAutocompleteFragment autocompleteFragment;
     private LocationManager locationManager;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+
         fromDate = (EditText)findViewById(R.id.fromDate);
         toDate = (EditText)findViewById(R.id.toDate);
         fromTime = (EditText)findViewById(R.id.fromTime);
@@ -124,7 +126,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             */
 
             GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
-            MapFragment _mapFragment = MapFragment.newInstance(options);
+            _mapFragment = MapFragment.newInstance(options);
             _mapFragment.getMapAsync(this);
             locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
             android.app.FragmentTransaction tr = getFragmentManager().beginTransaction();
@@ -134,7 +136,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         }
 
 
-        PlaceAutocompleteFragment autocompleteFragment =
+        autocompleteFragment =
                 (PlaceAutocompleteFragment) getFragmentManager()
                         .findFragmentById(R.id.place_autocomplete_fragment);
         if(autocompleteFragment != null){
@@ -206,7 +208,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 dialog.show();
             }
         });
-        //TODO currently it is possible to go back in time and set a TO time and date earlier than FROM. have to fix that.
         toDate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -281,7 +282,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO add location and people to the event.
                 Context context = getApplicationContext();
                 CharSequence text = "New event added.";
                 int duration = Toast.LENGTH_SHORT;
@@ -319,33 +319,38 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 startActivity(startIntent);
             }
         });
-        //commented out, no longer needed.
-        /*
-        getLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    Intent intent =
-                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-                                    .build(_me);
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: load an EditText instead.
-                    Log.i("ERROR", "ERROR WHEN PLACE AUTO COMPLETE.");
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                    Log.i("ERROR", "ERROR WHEN PLACE AUTO COMPLETE.");
-                }
 
+        //now locading the data - if we had one.
+
+        //TODO is try-catching a bad practice to handle scenarious bearable via if-else?
+        try{
+            Intent intent = getIntent();
+            Event _storedEvent = ((EventBundle)intent.getParcelableExtra(EventBundle.NAME)).getEvent();
+            MY_EVENT = _storedEvent;
+            eventName.setText(MY_EVENT.getEventName());
+            description.setText(MY_EVENT.getEventDescription());
+            String[] _start = DateTime.parseLong(MY_EVENT.getEventStart());
+            String[] _end = DateTime.parseLong(MY_EVENT.getEventEnd());
+            fromDate.setText(_start[0]);
+            fromTime.setText(_start[1]);
+            toDate.setText(_end[0]);
+            toTime.setText(_end[1]);
+
+            autocompleteFragment.setText(MY_EVENT.getEventLocation());
+            List<ContactFriend> _l = new ArrayList<>();
+            for(String f : MY_EVENT.getFriends()){
+                _l.add(new ContactFriend(f));
             }
-        });
-*/
-        /*
-        fromDate.setOnClickListener(HookupDate(_from,fromDate));
-        fromTime.setOnClickListener(HookupTime(_from,fromTime));
-        toDate.setOnClickListener(HookupDate(_to,toDate));
-        toTime.setOnClickListener(HookupTime(_to,toTime));
-        */
+            contactFriendsListFragment.setContextRuntime(_l);
+            /*
+            contactFriendsListFragment.listView.setAdapter(new ArrayAdapter<String>(this,
+                    R.layout.array_adapter_item, MY_EVENT.getFriends()));
+             */
+        }catch(Exception ex){
+            Log.i("New event","A new event was created.");
+        }
+
+
     }
     LatLng sydney = new LatLng(-34, 151);
     @Override
@@ -403,43 +408,5 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 // The user canceled the operation.
             }
         }
-    }
-
-    private View.OnClickListener HookupDate(final DateTime dateTime, final EditText date){
-        return new View.OnClickListener(){
-            public void onClick(View view){
-                DatePickerDialog dialog = new DatePickerDialog(
-                        EventActivity.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
-                        new ArgumentedDateListener(date) {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                month++;
-                                String _fromDate = year + "/" + month + "/" + day;
-                                textToUpdate.setText(_fromDate);
-                            }
-                        },dateTime.getYear(), dateTime.getMonth(),
-                        dateTime.getDay()
-                );
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        };
-    }
-    private View.OnClickListener HookupTime(final DateTime dateTime, final EditText time){
-        return new View.OnClickListener(){
-            public void onClick(View view){
-                TimePickerDialog dialog = new TimePickerDialog(EventActivity.this,
-                        android.R.style.Theme_DeviceDefault_Dialog_MinWidth,new ArgumentedTimeListener(time){
-                    @Override
-                    public void onTimeSet(TimePicker datePicker, int hour, int minute) {
-                        String _fromTime = hour + ":" + minute;
-                        textToUpdate.setText(_fromTime);
-                    }
-                },
-                        dateTime.getHour(),dateTime.getMinute(),true);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        };
     }
 }

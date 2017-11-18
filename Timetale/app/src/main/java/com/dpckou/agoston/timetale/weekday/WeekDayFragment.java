@@ -95,12 +95,15 @@ public class WeekDayFragment extends Fragment {
                                     //FIXME simpler to pass the event itself instead of its elements? :(
                                     Toast.makeText(getContext(), "Event: " + e.getEventName(), Toast.LENGTH_SHORT).show();
                                     Intent myIntent = new Intent(view.getContext(), SelectedEventActivity.class);
+                                    /*
                                     myIntent.putExtra(SelectedEventActivity.TITLE_TAG, e.getEventName());
                                     myIntent.putExtra(SelectedEventActivity.LOCATION_TAG, e.getEventLocation());
                                     myIntent.putExtra(SelectedEventActivity.DESCRIPTION_TAG, e.getEventDescription());
                                     myIntent.putStringArrayListExtra(SelectedEventActivity.FRIENDS_TAG, e.getFriends());
                                     myIntent.putExtra(SelectedEventActivity.FROM_TAG, e.getEventStart());
                                     myIntent.putExtra(SelectedEventActivity.TO_TAG, e.getEventEnd());
+                                    */
+                                    myIntent.putExtra(EventBundle.NAME, new EventBundle(e));
                                     startActivity(myIntent);
                                 }
                             }

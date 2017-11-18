@@ -9,8 +9,6 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,10 +40,13 @@ public class ContactFriendsListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        askPermission();
-        //getContactList();
+        setContextRuntime(null);
+    }
 
-
+    public void setContextRuntime(List<ContactFriend> friends){
+        if(friends != null)
+            this.friends = friends;
+        initializeFragment();
     }
 
     private void setAdapterToList(){
@@ -92,7 +93,7 @@ public class ContactFriendsListFragment extends Fragment {
         }
     }
 
-    private void askPermission(){
+    private void initializeFragment(){
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this.getActivity(),new String[]{
