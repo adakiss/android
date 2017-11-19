@@ -92,7 +92,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private EditText eventName;
     private EditText description;
     private FrameLayout gps;
-    private ContactFriendsListFragment contactFriendsListFragment;
+    //private ContactFriendsListFragment contactFriendsListFragment;
 
     private Button submit;
     //the two wrappers for the input data.
@@ -111,7 +111,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         toDate = (EditText)findViewById(R.id.toDate);
         fromTime = (EditText)findViewById(R.id.fromTime);
         toTime = (EditText)findViewById(R.id.toTime);
-        friendsFrame = findViewById(R.id.friendsList);
+        //friendsFrame = findViewById(R.id.friendsList);
         submit = (Button) findViewById(R.id.submitEvent);
         eventName = (EditText) findViewById(R.id.title);
         description = (EditText) findViewById(R.id.description);
@@ -170,13 +170,13 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             or you can just add a string
         */
 
-        contactFriendsListFragment = ContactFriendsListFragment.newInstance();
+        //contactFriendsListFragment = ContactFriendsListFragment.newInstance();
 
-        FragmentManager manager = getSupportFragmentManager();
+        /*FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.friendsList, contactFriendsListFragment);
 
-        transaction.commit();
+        transaction.commit();*/
 
         //the to-s are needed to be implemented separately.
         fromDate.setOnClickListener(new View.OnClickListener(){
@@ -294,19 +294,20 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     MY_EVENT.setEventStart(_from.generateLong());
                     MY_EVENT.setEventEnd(_to.generateLong());
                     MY_EVENT.setEventName(eventName.getText().toString());
-                    if (selectedPlace != null) {
+                    if (MY_EVENT.getEventLocation() == null ||
+                            (selectedPlace != null && selectedPlace.getName() != MY_EVENT.getEventLocation())) {
                         MY_EVENT.setEventLocation(selectedPlace.getName().toString());
                     }
                     MY_EVENT.setEventDescription(description.getText().toString());
 
                     List<String> _friends = new ArrayList<>();
                     //missing fckn LINQ :(
-                    for (ContactFriend f : contactFriendsListFragment.friends){
+                    /*for (ContactFriend f : contactFriendsListFragment.friends){
                         if(f.isSelected()){
                             _friends.add(f.getNickName());
                         }
                     }
-                    MY_EVENT.setEventFriends(_friends);
+                    MY_EVENT.setEventFriends(_friends);*/
 
                     TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
 
@@ -334,29 +335,50 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             MY_EVENT = _storedEvent;
             eventName.setText(MY_EVENT.getEventName());
             description.setText(MY_EVENT.getEventDescription());
-            String[] _start = DateTime.parseLong(MY_EVENT.getEventStart());
-            String[] _end = DateTime.parseLong(MY_EVENT.getEventEnd());
-            fromDate.setText(_start[0]);
-            fromTime.setText(_start[1]);
-            toDate.setText(_end[0]);
-            toTime.setText(_end[1]);
+            _to=new DateTime(MY_EVENT.getEventEnd());
+            _from=new DateTime(MY_EVENT.getEventStart());
+            //String[] _start = DateTime.parseLong(MY_EVENT.getEventStart());
+            //String[] _end = DateTime.parseLong(MY_EVENT.getEventEnd());
+            fromDate.setText(getDateFromLong(MY_EVENT.getEventStart()));
+            fromTime.setText(getTimeFromLong(MY_EVENT.getEventStart()));
+            toDate.setText(getDateFromLong(MY_EVENT.getEventEnd()));
+            toTime.setText(getTimeFromLong(MY_EVENT.getEventEnd()));
 
             autocompleteFragment.setText(MY_EVENT.getEventLocation());
-            List<ContactFriend> _l = new ArrayList<>();
+            /*List<ContactFriend> _l = new ArrayList<>();
             for(String f : MY_EVENT.getFriends()){
                 _l.add(new ContactFriend(f));
-            }
-            contactFriendsListFragment.setContextRuntime(_l);
+            }*/
+            //contactFriendsListFragment.setContextRuntime(_l, this.getBaseContext());
             /*
             contactFriendsListFragment.listView.setAdapter(new ArrayAdapter<String>(this,
                     R.layout.array_adapter_item, MY_EVENT.getFriends()));
              */
         }catch(Exception ex){
-            Log.i("New event","A new event was created.");
+            //Log.i("New event","A new event was created.");
         }
 
 
     }
+
+    private String getDateFromLong(long timestamp) {
+
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(timestamp);
+        String res = c.get(Calendar.YEAR) + "." + (c.get(Calendar.MONTH)+1) + "." + c.get(Calendar.DAY_OF_MONTH);
+
+        return res;
+    }
+
+    private String getTimeFromLong(long timestamp) {
+
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(timestamp);
+        String res = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+
+        return res;
+    }
+
     LatLng sydney = new LatLng(-34, 151);
     @Override
     public void onMapReady(GoogleMap googleMap) {

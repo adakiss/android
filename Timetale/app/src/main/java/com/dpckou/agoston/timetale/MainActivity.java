@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startButton;
     private Button testEventData;
+    private Button cleanDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent startIntent = new Intent(view.getContext(), WeekDayPagerActivity.class);
                 startActivity(startIntent);
+            }
+        });
+
+        cleanDb = findViewById(R.id.cleanDB);
+        cleanDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimetaleApplication.get().getDB().getDaoInstance().nukeEventTable();
             }
         });
         testEventData = (Button)findViewById(R.id.testNewEvent);

@@ -14,6 +14,13 @@
         android:gravity="center"
         android:text="Push me"/>
     <Button
+        android:id="@+id/cleanDB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="cleanDb"
+        android:layout_toRightOf="@id/testNewEvent"/>
+    <Button
         android:id="@+id/testNewEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

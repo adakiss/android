@@ -43,6 +43,16 @@ public class DateTime implements Comparable<DateTime>{
         this.minute = cal.get(Calendar.MINUTE);
     }
 
+    public DateTime(long timestamp) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(timestamp);
+        this.year=c.get(Calendar.YEAR);
+        this.month=c.get(Calendar.MONTH)+1;
+        this.day=c.get(Calendar.DAY_OF_MONTH);
+        this.hour=c.get(Calendar.HOUR_OF_DAY);
+        this.minute=c.get(Calendar.MINUTE);
+    }
+
     private int hour;
     private int minute;
 
@@ -157,7 +167,7 @@ public class DateTime implements Comparable<DateTime>{
     }
 
     public long generateLong(){
-        //TODO has to be tested and verified.
+        /*//TODO has to be tested and verified.
         String myDate = nullify(hour) + "-" + nullify(minute) + "-" +
                 nullify(day) + "-" + nullify(month) + "-" + nullify(year);
         SimpleDateFormat sf = new SimpleDateFormat("HH-mm-dd-MM-yyyy");
@@ -167,7 +177,13 @@ public class DateTime implements Comparable<DateTime>{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return d.getTime();
+        return d.getTime();*/
+        Calendar c = Calendar.getInstance();
+
+        c.set(year, month-1, day, hour, minute);
+
+        return c.getTimeInMillis();
+
     }
 
     /**

@@ -47,6 +47,8 @@ public class EventBundle implements Parcelable {
         e.setEventEnd(in.readLong());
         //event location
         e.setEventLocation(in.readString());
+        //event id
+        e.setId(in.readInt());
 
         event = e;
 
@@ -84,5 +86,7 @@ public class EventBundle implements Parcelable {
         parcel.writeLong(event.getEventEnd());
         //event location
         parcel.writeString(event.getEventLocation());
+        //event id
+        parcel.writeInt(event.getId());
     }
 }
