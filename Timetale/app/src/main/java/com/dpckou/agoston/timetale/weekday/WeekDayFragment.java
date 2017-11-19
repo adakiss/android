@@ -105,6 +105,7 @@ public class WeekDayFragment extends Fragment {
                                     */
                                     myIntent.putExtra(EventBundle.NAME, new EventBundle(e));
                                     startActivity(myIntent);
+                                    return;
                                 }
                             }
                         }
