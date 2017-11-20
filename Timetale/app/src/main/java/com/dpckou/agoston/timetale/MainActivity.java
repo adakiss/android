@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent startIntent = new Intent(this, WeekDayPagerActivity.class);
+        startActivity(startIntent);
+
+        //kept for testing purposes only.
+
         startButton = (Button) findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
