@@ -92,7 +92,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private EditText eventName;
     private EditText description;
     private FrameLayout gps;
-    //private ContactFriendsListFragment contactFriendsListFragment;
+    private ContactFriendsListFragment contactFriendsListFragment;
 
     private Button submit;
     //the two wrappers for the input data.
@@ -170,13 +170,34 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             or you can just add a string
         */
 
-        //contactFriendsListFragment = ContactFriendsListFragment.newInstance();
+        contactFriendsListFragment = ContactFriendsListFragment.newInstance();
 
-        /*FragmentManager manager = getSupportFragmentManager();
+        /*
+        HINT WHAT TO DO
+        this activity has 2 ways of starting:
+        open from add new, open from edit.
+        if opened from edit, it awaits an EventBundle, else nothing.
+
+        so to do:
+        get an EventBundle from its Intent.
+        if it's null, nothing to do.
+        else pass the friends list in a Bundle.
+         */
+
+        Object _bundle = getIntent().getParcelableExtra(EventBundle.NAME);
+        if(_bundle != null){
+            //so we HAD an extra EventBundle, it's an edit.
+            Bundle b = new Bundle();
+            b.putParcelable(EventBundle.NAME,(EventBundle)_bundle);
+            contactFriendsListFragment.setArguments(b);
+        }
+
+
+        FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.friendsList, contactFriendsListFragment);
 
-        transaction.commit();*/
+        transaction.commit();
 
         //the to-s are needed to be implemented separately.
         fromDate.setOnClickListener(new View.OnClickListener(){
@@ -302,12 +323,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
                     List<String> _friends = new ArrayList<>();
                     //missing fckn LINQ :(
-                    /*for (ContactFriend f : contactFriendsListFragment.friends){
+                    for (ContactFriend f : contactFriendsListFragment.friends){
                         if(f.isSelected()){
                             _friends.add(f.getNickName());
                         }
                     }
-                    MY_EVENT.setEventFriends(_friends);*/
+                    MY_EVENT.setEventFriends(_friends);
 
                     TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
 
@@ -345,15 +366,15 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             toTime.setText(getTimeFromLong(MY_EVENT.getEventEnd()));
 
             autocompleteFragment.setText(MY_EVENT.getEventLocation());
-            /*List<ContactFriend> _l = new ArrayList<>();
+            List<ContactFriend> _l = new ArrayList<>();
             for(String f : MY_EVENT.getFriends()){
                 _l.add(new ContactFriend(f));
-            }*/
+            }
             //contactFriendsListFragment.setContextRuntime(_l, this.getBaseContext());
-            /*
+
             contactFriendsListFragment.listView.setAdapter(new ArrayAdapter<String>(this,
                     R.layout.array_adapter_item, MY_EVENT.getFriends()));
-             */
+
         }catch(Exception ex){
             //Log.i("New event","A new event was created.");
         }

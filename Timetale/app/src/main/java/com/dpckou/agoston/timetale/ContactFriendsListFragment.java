@@ -18,6 +18,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.dpckou.agoston.timetale.weekday.EventBundle;
+import com.google.android.gms.games.event.Event;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,8 @@ public class ContactFriendsListFragment extends Fragment {
     ListView listView;
     private static final int MY_PERMISSIONS_READ_CONTACTS = 1000;
     List<ContactFriend> friends = new ArrayList<>();
+
+    List<String> alreadySelected = null;
 
     @Nullable
     @Override
@@ -42,18 +47,28 @@ public class ContactFriendsListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setContextRuntime(null);
-    }
+        Bundle b = this.getArguments();
+        if(b != null){
+            Object _e = b.getParcelable(EventBundle.NAME);
+            if(_e != null){
+                alreadySelected = ((EventBundle)_e).getEvent().getFriends();
+            }
+        }
 
-    public void setContextRuntime(List<ContactFriend> friends){
-        if(friends != null)
-            this.friends = friends;
         initializeFragment();
     }
 
     private void setAdapterToList(){
         final AddContactFriendAdapter adapter = new AddContactFriendAdapter(friends);
         listView.setAdapter(adapter);
+
+        for (int i = 0; i < adapter.getCount();i++){
+            ContactFriend cf = (ContactFriend) adapter.getItem(i);
+            View v = getViewByPosition(i,listView);
+            colorizeFriendBg(v, cf);
+            adapter.notifyDataSetChanged();
+        }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -61,7 +76,7 @@ public class ContactFriendsListFragment extends Fragment {
                 addToSelected(fr);
                 //TODO: make it switch some BG colour when clicked. use getViewByPosition.
                 View v = getViewByPosition(position,listView);
-                colorizeFriendBg(v,fr);
+                colorizeFriendBg(v, fr);
             }
         });
     }
@@ -81,6 +96,8 @@ public class ContactFriendsListFragment extends Fragment {
         }else{
             v.setBackgroundColor(0x00000000);
         }
+        v.invalidate();
+
     }
 
     private View getViewByPosition(int pos, ListView listView) {
@@ -139,7 +156,23 @@ public class ContactFriendsListFragment extends Fragment {
                         ContactsContract.Contacts.DISPLAY_NAME));
                 //now actually adding the name in a new ContactFriend:
                 ContactFriend cf = new ContactFriend(name);
+                /*
+
+                NOTE**NOTE**NOTE**NOTE**NOTE**NOTE**NOTE**NOTE**NOTE**NOTE**NOTE**
+
+                here I use match by name which is wrong. match by phone number would be preferable.
+                but that would require redesigning half the shit.
+                 */
                 friends.add(cf);
+                if(alreadySelected != null){
+                    for (String s : alreadySelected){
+                        if(cf.getNickName().equals(s)){
+                            cf.setSelected(true);
+                            break;
+                        }
+                    }
+                }
+
                 Log.d("newContactFriend", cf.getNickName());
             }
             setAdapterToList();

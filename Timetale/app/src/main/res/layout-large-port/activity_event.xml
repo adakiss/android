@@ -8,7 +8,6 @@
     android:rowCount="7">
     <EditText
         android:layout_gravity="fill_horizontal"
-        android:focusable="false"
         android:id="@+id/title"
         android:layout_row="0"
         android:layout_column="0"
@@ -53,11 +52,11 @@
         <EditText
             android:text="00:00"
             android:layout_weight="1"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:id="@+id/fromTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="end"
             android:clickable="true"
             android:focusable="false"
             />
@@ -106,7 +105,6 @@
     </LinearLayout>
     <EditText
         android:layout_gravity="fill_horizontal"
-        android:focusable="false"
         android:id="@+id/description"
         android:layout_row="3"
         android:layout_column="0"
