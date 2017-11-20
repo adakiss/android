@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent startIntent = new Intent(this, WeekDayPagerActivity.class);
         startActivity(startIntent);
+        finish();
 
         //kept for testing purposes only.
 
