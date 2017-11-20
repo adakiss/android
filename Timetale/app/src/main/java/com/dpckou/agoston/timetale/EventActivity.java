@@ -1,29 +1,41 @@
 package com.dpckou.agoston.timetale;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
+import android.media.RingtoneManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.dpckou.agoston.timetale.DateTimeModels.DateTime;
+import com.dpckou.agoston.timetale.notifications.EventNotification;
 import com.dpckou.agoston.timetale.persistence.Event;
 import com.dpckou.agoston.timetale.weekday.EventBundle;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -306,8 +318,8 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = getApplicationContext();
-                CharSequence text = "New event added.";
+
+                final Context context = getApplicationContext();
                 int duration = Toast.LENGTH_SHORT;
 
 
@@ -330,20 +342,63 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     }
                     MY_EVENT.setEventFriends(_friends);
 
-                    TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
+                    //TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
 
                 }catch(Exception ex){
-                    text = "Invalid input.";
+                    CharSequence text = "Invalid input.";
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                     return;
                 }
-
+               /*
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
 
                 Intent startIntent = new Intent(view.getContext(), MainActivity.class);
                 startActivity(startIntent);
+                */
+                final Dialog dialog = new Dialog(_me);
+                dialog.setContentView(R.layout.notify_me);
+                dialog.setTitle("Notification?");
+                Switch s = dialog.findViewById(R.id.notification_switch);
+
+                //quick n dirty
+                final boolean[] _notifyMe = new boolean[1];
+                _notifyMe[0] = false;
+
+                s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        _notifyMe[0] = b;
+                    }
+                });
+                Button but = dialog.findViewById(R.id.confirm_event_popup);
+                but.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
+                        CharSequence t = "New event added.";
+                        Toast toast = Toast.makeText(context, t, Toast.LENGTH_LONG);
+                        toast.show();
+
+                        Intent startIntent = new Intent(view.getContext(), MainActivity.class);
+                        //scheduling a notification
+                        if(_notifyMe[0]){
+                            long _delay = MY_EVENT.getEventStart() - Calendar.getInstance().getTimeInMillis();
+                            scheduleNotification(_me,_delay,MY_EVENT.getId());
+                        }else{
+                            try{
+                                cancelNotification(_me,MY_EVENT.getId());
+                            }catch(Exception e){
+                                Log.i("Alarm notification", "No such notification to remove.");
+                            }
+                        }
+
+                        dialog.dismiss();
+                        startActivity(startIntent);
+                    }
+                });
+                dialog.show();
             }
         });
 
@@ -398,6 +453,38 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         String res = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
 
         return res;
+    }
+
+    private void scheduleNotification(Context context, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                .setContentTitle(MY_EVENT.getEventName())
+                .setContentText(MY_EVENT.getEventDescription())
+                .setAutoCancel(true)
+                .setSmallIcon(R.drawable.cast_ic_notification_forward)
+                .setLargeIcon(((BitmapDrawable) context.getResources()
+                        .getDrawable(R.drawable.cast_ic_notification_forward)).getBitmap())
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+
+        Intent intent = new Intent(context, EventActivity.class);
+        PendingIntent activity = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        builder.setContentIntent(activity);
+
+        Notification notification = builder.build();
+
+        Intent notificationIntent = new Intent(context, EventNotification.class);
+        notificationIntent.putExtra(EventNotification.NOTIFICATION_ID, notificationId);
+        notificationIntent.putExtra(EventNotification.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private static void cancelNotification(Context ctx, int notifyId) {
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
+        nMgr.cancel(notifyId);
     }
 
     LatLng sydney = new LatLng(-34, 151);
