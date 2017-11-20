@@ -36,18 +36,6 @@ public class WeekDayPagerActivity extends FragmentActivity {
         mPager.setAdapter(mAdapter);
     }
 
-
-
-    @Override
-    public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
-            super.onBackPressed();
-        } else {
-            mPager.setCurrentItem(mPager.getCurrentItem() + 1);
-        }
-
-    }
-
     private class WeekDayPagerAdapter extends FragmentStatePagerAdapter {
 
         private List<WeekDayFragment> mFragments;
