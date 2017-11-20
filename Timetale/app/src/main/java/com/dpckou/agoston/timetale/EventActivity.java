@@ -57,6 +57,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 //TODO creating/modifying an event should not work exactly the same because sometimes
@@ -385,6 +386,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                         //scheduling a notification
                         if(_notifyMe[0]){
                             long _delay = MY_EVENT.getEventStart() - Calendar.getInstance().getTimeInMillis();
+                            //long _delay = 60000;
                             scheduleNotification(_me,_delay,MY_EVENT.getId());
                         }else{
                             try{
@@ -479,6 +481,11 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+
+        /*Long time = new GregorianCalendar().getTimeInMillis()+delay;
+        //Intent notificationIntent = new Intent(this, EventNotification.class);
+        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,time, PendingIntent.getBroadcast(this,1,  notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));*/
     }
 
     private static void cancelNotification(Context ctx, int notifyId) {

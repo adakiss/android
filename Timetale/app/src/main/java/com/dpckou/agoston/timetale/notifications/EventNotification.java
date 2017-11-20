@@ -5,14 +5,16 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 /**
  * Created by agoston on 2017.11.20..
  */
 
 public class EventNotification extends BroadcastReceiver {
-    public static String NOTIFICATION_ID = "notification_id";
-    public static String NOTIFICATION = "notification";
+
+    public static final String NOTIFICATION = "notification";
+    public static final String NOTIFICATION_ID = "notification_id";
 
     @Override
     public void onReceive(final Context context, Intent intent) {
