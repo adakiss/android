@@ -30,4 +30,7 @@ public interface EventDao {
 
     @Query("DELETE FROM event")
     public void nukeEventTable();
+
+    @Query("DELETE FROM event WHERE event_end < :day_start")
+    public void cleanOldEvents(long day_start);
 }
