@@ -33,7 +33,7 @@ public class ContactFriendsListFragment extends Fragment {
     private static final int MY_PERMISSIONS_READ_CONTACTS = 1000;
     List<ContactFriend> friends = new ArrayList<>();
 
-    List<String> alreadySelected = null;
+    private List<String> alreadySelected = null;
 
     @Nullable
     @Override
@@ -83,7 +83,7 @@ public class ContactFriendsListFragment extends Fragment {
 
     /**
      * Just tells what to do when a friend was clicked on.
-     * @param friend
+     * @param friend longboii
      */
     private void addToSelected(ContactFriend friend){
         //in this case I just switched the selection bool.
@@ -118,8 +118,6 @@ public class ContactFriendsListFragment extends Fragment {
             ActivityCompat.requestPermissions(this.getActivity(),new String[]{
                     Manifest.permission.READ_CONTACTS
             },MY_PERMISSIONS_READ_CONTACTS);
-
-            return;
         }else{
             getContactList();
         }
@@ -150,8 +148,6 @@ public class ContactFriendsListFragment extends Fragment {
 
         if ((cur != null ? cur.getCount() : 0) > 0) {
             while (cur != null && cur.moveToNext()) {
-                String id = cur.getString(
-                        cur.getColumnIndex(ContactsContract.Contacts._ID));
                 String name = cur.getString(cur.getColumnIndex(
                         ContactsContract.Contacts.DISPLAY_NAME));
                 //now actually adding the name in a new ContactFriend:

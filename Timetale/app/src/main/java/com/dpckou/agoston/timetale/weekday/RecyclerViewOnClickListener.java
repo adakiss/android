@@ -6,7 +6,7 @@ import android.view.View;
  * Created by kissa on 2017. 11. 14..
  */
 
-public interface RecyclerViewOnClickListener {
+interface RecyclerViewOnClickListener {
 
     void onClick(View view, int position);
 }

@@ -27,16 +27,13 @@ public class WeekDayPagerActivity extends FragmentActivity {
 
     private static final int NUM_PAGES = 30;
 
-    private ViewPager mPager;
-    private PagerAdapter mAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_day_pager);
 
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mAdapter = new WeekDayPagerAdapter(getSupportFragmentManager());
+        ViewPager mPager = (ViewPager) findViewById(R.id.pager);
+        PagerAdapter mAdapter = new WeekDayPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.new_event_fab);

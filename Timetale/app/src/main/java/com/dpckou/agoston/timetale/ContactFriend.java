@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 public class ContactFriend implements Parcelable {
-    String nickName;
+    private String nickName;
 
     public static final Creator<ContactFriend> CREATOR = new Creator<ContactFriend>() {
         @Override
@@ -30,12 +30,12 @@ public class ContactFriend implements Parcelable {
         isSelected = selected;
     }
 
-    boolean isSelected;
+    private boolean isSelected;
     public ContactFriend(String nickName) {
         this.nickName = nickName;
     }
 
-    protected ContactFriend (Parcel in){
+    private ContactFriend(Parcel in){
         boolean[] _read = new boolean[1];
         in.readBooleanArray(_read);
         isSelected = _read[0];

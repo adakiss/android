@@ -12,9 +12,9 @@ import java.util.List;
  * Created by agoston on 2017.11.12..
  */
 
-public class AddContactFriendAdapter extends BaseAdapter {
+class AddContactFriendAdapter extends BaseAdapter {
 
-    List<ContactFriend> items;
+    private List<ContactFriend> items;
 
     public AddContactFriendAdapter(List<ContactFriend> items) {
         this.items = items;

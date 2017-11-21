@@ -13,16 +13,10 @@ import android.view.ViewGroup;
  */
 
 public class AddContactFriendFragment extends Fragment {
-    View view;
-    AppCompatTextView tv;
+    private View view;
+    private AppCompatTextView tv;
 
-    public static AddContactFriendFragment newInstance(ContactFriend friend){
-        Bundle args = new Bundle();
-        args.putParcelable("selected_friend", friend);
-        return newInstance(args);
-    }
-
-    public static AddContactFriendFragment newInstance(Bundle bundle) {
+    private static AddContactFriendFragment newInstance(Bundle bundle) {
 
         AddContactFriendFragment fragment = new AddContactFriendFragment();
         fragment.setArguments(bundle);
@@ -44,6 +38,7 @@ public class AddContactFriendFragment extends Fragment {
         tv = view.findViewById(R.id.oneFriend);
         if(getArguments() != null && getArguments().containsKey("selected_friend")){
             ContactFriend fr = getArguments().getParcelable("selected_friend");
+            assert fr != null;
             tv.setText(fr.getNickName());
         }
     }
