@@ -15,11 +15,11 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class TextFormatterTest {
-    String first = "myNewEvent";
-    String second = "MyNewEvent";
-    String third = "my_new_event";
-    String fourth = "my123new3e7896vent";
-    String fifth = "my123newEvent_lol";
+    private String first = "myNewEvent";
+    private String second = "MyNewEvent";
+    private String third = "my_new_event";
+    private String fourth = "my123new3e7896vent";
+    private String fifth = "my123newEvent_lol";
 
     @Test
     public void testCapitalizeFirst(){

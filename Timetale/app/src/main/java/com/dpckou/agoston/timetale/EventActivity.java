@@ -76,28 +76,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private GoogleMap mMap;
     private Activity _me;
 
-    public Event getMY_EVENT() {
-        return MY_EVENT;
-    }
-
     private Event MY_EVENT;
-
-    public DateTime get_from() {
-        return _from;
-    }
-
-    public void set_from(DateTime _from) {
-        this._from = _from;
-    }
-
-    public DateTime get_to() {
-        return _to;
-    }
-
-    public void set_to(DateTime _to) {
-        this._to = _to;
-    }
-
     private EditText fromDate;
     private EditText toDate;
     private EditText fromTime;
@@ -107,15 +86,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private FrameLayout gps;
     private ContactFriendsListFragment contactFriendsListFragment;
 
-    private Button submit;
     //the two wrappers for the input data.
     private DateTime _from = new DateTime();
     private DateTime _to = new DateTime();
-    Calendar c = Calendar.getInstance();
-    private FrameLayout friendsFrame;
-    MapFragment _mapFragment;
-    PlaceAutocompleteFragment autocompleteFragment;
-    private LocationManager locationManager;
+    private MapFragment _mapFragment;
+    private PlaceAutocompleteFragment autocompleteFragment;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
@@ -125,7 +101,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         fromTime = (EditText)findViewById(R.id.fromTime);
         toTime = (EditText)findViewById(R.id.toTime);
         //friendsFrame = findViewById(R.id.friendsList);
-        submit = (Button) findViewById(R.id.submitEvent);
+        Button submit = (Button) findViewById(R.id.submitEvent);
         eventName = (EditText) findViewById(R.id.title);
         description = (EditText) findViewById(R.id.description);
         gps = findViewById(R.id.gps);
@@ -144,7 +120,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
             _mapFragment = MapFragment.newInstance(options);
             _mapFragment.getMapAsync(this);
-            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
             android.app.FragmentTransaction tr = getFragmentManager().beginTransaction();
             tr.replace(R.id.gps,_mapFragment);
             tr.addToBackStack(null);
@@ -343,21 +319,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     }
                     MY_EVENT.setEventFriends(_friends);
 
-                    //TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
-
                 }catch(Exception ex){
                     CharSequence text = "Invalid input.";
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                     return;
                 }
-               /*
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
-                Intent startIntent = new Intent(view.getContext(), MainActivity.class);
-                startActivity(startIntent);
-                */
                 final Dialog dialog = new Dialog(_me);
                 dialog.setContentView(R.layout.notify_me);
                 dialog.setTitle("Notification?");
@@ -377,7 +344,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 but.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
+
                         CharSequence t = "New event added.";
                         Toast toast = Toast.makeText(context, t, Toast.LENGTH_LONG);
                         toast.show();
@@ -395,7 +362,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                 Log.i("Alarm notification", "No such notification to remove.");
                             }
                         }
-
+                        TimetaleApplication.get().getDB().getDaoInstance().addNewEvent(MY_EVENT);
                         dialog.dismiss();
                         startActivity(startIntent);
                     }
@@ -403,10 +370,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 dialog.show();
             }
         });
-
-        //now locading the data - if we had one.
-
-        //TODO is try-catching a bad practice to handle scenarious bearable via if-else?
         try{
             Intent intent = getIntent();
             Event _storedEvent = ((EventBundle)intent.getParcelableExtra(EventBundle.NAME)).getEvent();
@@ -415,20 +378,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             description.setText(MY_EVENT.getEventDescription());
             _to=new DateTime(MY_EVENT.getEventEnd());
             _from=new DateTime(MY_EVENT.getEventStart());
-            //String[] _start = DateTime.parseLong(MY_EVENT.getEventStart());
-            //String[] _end = DateTime.parseLong(MY_EVENT.getEventEnd());
             fromDate.setText(getDateFromLong(MY_EVENT.getEventStart()));
             fromTime.setText(getTimeFromLong(MY_EVENT.getEventStart()));
             toDate.setText(getDateFromLong(MY_EVENT.getEventEnd()));
             toTime.setText(getTimeFromLong(MY_EVENT.getEventEnd()));
 
             autocompleteFragment.setText(MY_EVENT.getEventLocation());
-            List<ContactFriend> _l = new ArrayList<>();
-            for(String f : MY_EVENT.getFriends()){
-                _l.add(new ContactFriend(f));
-            }
-            //contactFriendsListFragment.setContextRuntime(_l, this.getBaseContext());
-
             contactFriendsListFragment.listView.setAdapter(new ArrayAdapter<String>(this,
                     R.layout.array_adapter_item, MY_EVENT.getFriends()));
 
@@ -495,7 +450,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         nMgr.cancel(notifyId);
     }
 
-    LatLng sydney = new LatLng(-34, 151);
+    private LatLng sydney = new LatLng(-34, 151);
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -525,14 +480,10 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                         .build()
                 ), new GoogleMap.CancelableCallback() {
                     @Override
-                    public void onFinish() {
-
-                    }
+                    public void onFinish() { }
 
                     @Override
-                    public void onCancel() {
-
-                    }
+                    public void onCancel() { }
                 });
     }
 
@@ -540,15 +491,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                //TODO save the location to String.
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 Log.i("SELECTED_PLACE", "Place: " + place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 Log.i("SELECTED_PLACE", status.getStatusMessage());
 
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
             }
         }
     }

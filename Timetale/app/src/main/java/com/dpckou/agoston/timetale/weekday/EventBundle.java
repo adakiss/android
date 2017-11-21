@@ -31,7 +31,7 @@ public class EventBundle implements Parcelable {
         this.event = event;
     }
 
-    protected EventBundle(Parcel in) {
+    private EventBundle(Parcel in) {
         Event e = new Event();
         //friends list
         List<String> _fr = new ArrayList<>();

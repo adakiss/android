@@ -1,7 +1,6 @@
 package com.dpckou.agoston.timetale.weekday;
 
 import android.app.AlertDialog;
-import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,24 +8,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dpckou.agoston.timetale.EventCards.EventCardActivity;
 import com.dpckou.agoston.timetale.EventCards.SelectedEventActivity;
 import com.dpckou.agoston.timetale.R;
 import com.dpckou.agoston.timetale.TimetaleApplication;
 import com.dpckou.agoston.timetale.converter.EventsOfDayConverter;
 import com.dpckou.agoston.timetale.persistence.Event;
-import com.dpckou.agoston.timetale.persistence.EventDao;
-import com.dpckou.agoston.timetale.persistence.TimetaleDatabase;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,13 +30,12 @@ import java.util.Date;
 
 public class WeekDayFragment extends Fragment {
 
-    public final static String ARG_DATE = "date";
+    private final static String ARG_DATE = "date";
     private static final SimpleDateFormat format = new SimpleDateFormat("EEEE, MMM d, yyyy");
 
     private EventsOfDayConverter converter;
     private Date date;
-    private RecyclerView mRecyclerView;
-    HourAdapter mAdapter;
+    private HourAdapter mAdapter;
 
     public static WeekDayFragment create(long date) {
         WeekDayFragment wdf = new WeekDayFragment();
@@ -69,7 +62,7 @@ public class WeekDayFragment extends Fragment {
         ((TextView)(rootView.findViewById(R.id.dayanddate))).setText(format.format(date));
 
 
-        mRecyclerView = rootView.findViewById(R.id.hourlist);
+        RecyclerView mRecyclerView = rootView.findViewById(R.id.hourlist);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -111,17 +104,7 @@ public class WeekDayFragment extends Fragment {
                         }
                     });
                     builder.show();
-                } else {
-                    return;
                 }
-
-                /*
-                //Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_SHORT).show();
-                //TODO make it BUN DEM
-                Intent i = new Intent(view.getContext(), SelectedEventActivity.class);
-                //i.putExtra(EventCardActivity.TITLE_TAG,hours[position].getEvent());
-                startActivity(i);
-                */
             }
         };
 

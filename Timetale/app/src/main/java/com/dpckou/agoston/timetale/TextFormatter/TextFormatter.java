@@ -8,10 +8,10 @@ import android.arch.persistence.room.util.StringUtil;
 
 public class TextFormatter {
 
-    public static final int CAPITALIZE_FIRST = 1;
-    public static final int DIVIDE_BY_CAPS = 2;
-    public static final int DIVIDE_BY_UNDERSCORE = 3;
-    public static final int SEPARATE_NUMBERS = 4;
+    private static final int CAPITALIZE_FIRST = 1;
+    private static final int DIVIDE_BY_CAPS = 2;
+    private static final int DIVIDE_BY_UNDERSCORE = 3;
+    private static final int SEPARATE_NUMBERS = 4;
 
     private static boolean isNumber(char c){
         try{
@@ -27,54 +27,54 @@ public class TextFormatter {
     }
 
     public static String capitalizeFirst(String s){
-        if(s == null || s == "")return null;
+        if(s == null || s.equals(""))return null;
         String first = Character.toString(s.charAt(0)).toUpperCase();
         return first + s.substring(1,s.length());
     }
 
     public static String divideByCaps(String s) {
-        if(s == null || s == "")return null;
-        String r = "";
+        if(s == null || s.equals(""))return null;
+        StringBuilder r = new StringBuilder();
         char[] _s = s.toCharArray();
-        r+=_s[0];
+        r.append(_s[0]);
         for(int i = 1; i < _s.length; i++){
             char c = _s[i];
             if(isCapitalLetter(c)){
-                r += ' ';
+                r.append(' ');
             }
-            r += c;
+            r.append(c);
         }
-        return r;
+        return r.toString();
     }
 
     public static String divideByUnderscore(String s){
-        if(s == null || s == "")return null;
-        String r = "";
+        if(s == null || s.equals(""))return null;
+        StringBuilder r = new StringBuilder();
         char[] _s = s.toCharArray();
         for(int i = 0; i < _s.length; i++){
             char c = _s[i];
             if(c == '_'){
                 c = ' ';
             }
-            r += c;
+            r.append(c);
         }
-        return r;
+        return r.toString();
     }
     //fucking miss .net predicates here :(
     public static String separateNumbers(String s){
-        if(s == null || s == "")return null;
-        String r = "";
+        if(s == null || s.equals(""))return null;
+        StringBuilder r = new StringBuilder();
         char[] _s = s.toCharArray();
-        r += _s[0];
+        r.append(_s[0]);
         for(int i = 1; i < _s.length; i++){
             if((!isNumber(_s[i-1]) && isNumber(_s[i]))
                     ||
                     (isNumber(_s[i-1]) && !isNumber(_s[i]))){
-                r += ' ';
+                r.append(' ');
             }
-            r += _s[i];
+            r.append(_s[i]);
         }
-        return r;
+        return r.toString();
     }
     //TODO in c# loop through enums is possible and map the action call by a dictionary. is it here? to eliminate switch.
     public static String multiFormat(String s, int[] formatRules){

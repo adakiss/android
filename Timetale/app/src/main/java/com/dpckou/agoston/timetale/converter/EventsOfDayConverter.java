@@ -11,7 +11,7 @@ import java.util.Calendar;
 
 public class EventsOfDayConverter {
 
-    public static Calendar c = Calendar.getInstance();
+    private static Calendar c = Calendar.getInstance();
 
     public Hour[] convert(Event[] events, long dayStart, long dayEnd) {
         Hour[] result = new Hour[24];

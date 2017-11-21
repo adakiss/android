@@ -27,23 +27,9 @@ import java.util.Date;
 
 public class SelectedEventActivity extends AppCompatActivity {
 
-    public static final String TITLE_TAG = "eventTitle";
-    public static final String FROM_TAG = "eventFrom";
-    public static final String TO_TAG = "eventTo";
-    public static final String LOCATION_TAG = "eventLocation";
-    public static final String FRIENDS_TAG = "eventDescription";
-    public static final String DESCRIPTION_TAG = "eventNameStrings";
-
     public static final char NAMES_SEPARATOR = ',';
 
     private Event myEvent;
-
-    private TextView title;
-    private TextView from;
-    private TextView to;
-    private TextView description;
-    private ListView selectedFriends;
-    private TextView location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +41,12 @@ public class SelectedEventActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        title = findViewById(R.id.title);
-        from = findViewById(R.id.from);
-        to = findViewById(R.id.to);
-        description = findViewById(R.id.description);
-        selectedFriends = findViewById(R.id.friends);
-        location = findViewById(R.id.location);
+        TextView title = findViewById(R.id.title);
+        TextView from = findViewById(R.id.from);
+        TextView to = findViewById(R.id.to);
+        TextView description = findViewById(R.id.description);
+        ListView selectedFriends = findViewById(R.id.friends);
+        TextView location = findViewById(R.id.location);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

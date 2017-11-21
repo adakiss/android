@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by agoston on 2017.11.21..
@@ -19,16 +20,14 @@ import java.util.Calendar;
 @RunWith(AndroidJUnit4.class)
 public class DateTimeTest {
 
-    int first = 3;
-    int first_2 = 9;
-    int first_3 = 22;
+    private int first = 3;
+    private int first_2 = 9;
+    private int first_3 = 22;
 
-    DateTime second = new DateTime(2000,4,7,11,2);
+    private DateTime second = new DateTime(2000,4,7,11,2);
 
-    DateTime third_1;
-    DateTime third_2;
-
-    DateTime fourth;
+    private DateTime third_1;
+    private DateTime third_2;
 
     @Test
     public void testNullify() throws NoSuchMethodException,
@@ -36,9 +35,6 @@ public class DateTimeTest {
         String _first = "03";
         String _first_2 = "09";
         String _first_3 = "22";
-
-        Class[] cArgs = new Class[1];
-        cArgs[0] = Integer.class;
 
         Method method = DateTime.class.getDeclaredMethod("nullify", Integer.TYPE,String.class);
         method.setAccessible(true);
@@ -79,10 +75,11 @@ public class DateTimeTest {
     }
 
     @Test
-    public void testGenerateLong(){
-        fourth = new DateTime(2000,1,1,1,1);
-        Calendar _c = Calendar.getInstance();
-        _c.set(2000,1,1,1,1);
-        Assert.assertEquals(fourth.generateLong(),_c.getTimeInMillis());
+    public void testParseLong(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date(10000000L));
+        String[] _expected = new String[] {"1970.00.01","00:00"}; //lel 0. hónap
+        String[] _res = DateTime.parseLong(10000000L);
+        Assert.assertEquals(_res[0],_expected[0]);
     }
 }
