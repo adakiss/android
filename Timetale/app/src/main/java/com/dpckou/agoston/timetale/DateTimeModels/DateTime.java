@@ -21,7 +21,7 @@ public class DateTime implements Comparable<DateTime>{
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
-        hour = c.get(Calendar.HOUR);
+        hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
     }
     public DateTime(int year, int month, int day,
@@ -39,7 +39,7 @@ public class DateTime implements Comparable<DateTime>{
         this.year = cal.get(Calendar.YEAR);
         this.month = cal.get(Calendar.MONTH);
         this.day = cal.get(Calendar.DAY_OF_MONTH);
-        this.hour = cal.get(Calendar.HOUR);
+        this.hour = cal.get(Calendar.HOUR_OF_DAY);
         this.minute = cal.get(Calendar.MINUTE);
     }
 
@@ -200,7 +200,7 @@ public class DateTime implements Comparable<DateTime>{
 
         DateTime dateTime = new DateTime(cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH),
-                cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE));
+                cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
         String[] s = new String[2];
 
         //s[0] -> date
