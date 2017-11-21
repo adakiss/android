@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -96,6 +97,11 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         fromDate = (EditText)findViewById(R.id.fromDate);
         toDate = (EditText)findViewById(R.id.toDate);
         fromTime = (EditText)findViewById(R.id.fromTime);
@@ -111,12 +117,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
         //new shit
         if(gps != null){
-            /*
-            MapFragment mapFragment = (MapFragment) getFragmentManager()
-                    .findFragmentById(R.id.gps);
-            mapFragment.getMapAsync(this);
-            */
-
             GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
             _mapFragment = MapFragment.newInstance(options);
             _mapFragment.getMapAsync(this);
@@ -499,5 +499,11 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
             }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
