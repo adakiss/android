@@ -24,10 +24,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button startButton;
-    private Button testEventData;
-    private Button cleanDb;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         //kept for testing purposes only.
 
-        startButton = (Button) findViewById(R.id.startButton);
+        Button startButton = (Button) findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,14 +61,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        cleanDb = findViewById(R.id.cleanDB);
+        Button cleanDb = findViewById(R.id.cleanDB);
         cleanDb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TimetaleApplication.get().getDB().getDaoInstance().nukeEventTable();
             }
         });
-        testEventData = (Button)findViewById(R.id.testNewEvent);
+        Button testEventData = (Button) findViewById(R.id.testNewEvent);
 
         testEventData.setOnClickListener(new View.OnClickListener() {
             @Override
