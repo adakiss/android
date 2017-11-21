@@ -92,14 +92,14 @@ public class Event {
     }
 
     public void setEventFriends(List<String> friends) {
-        String friendString = "";
+        StringBuilder friendString = new StringBuilder();
         for(String s : friends) {
-            friendString += s;
+            friendString.append(s);
             if(friends.indexOf(s) != friends.size()-1 ) {
-                friendString += SelectedEventActivity.NAMES_SEPARATOR;
+                friendString.append(SelectedEventActivity.NAMES_SEPARATOR);
             }
         }
-        this.eventFriends = friendString;
+        this.eventFriends = friendString.toString();
     }
 
     public ArrayList<String> getFriends() {

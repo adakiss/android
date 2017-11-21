@@ -24,8 +24,8 @@ import java.sql.Date;
 @RunWith(AndroidJUnit4.class)
 public class EventEntityTest {
 
-    TimetaleDatabase mDb;
-    EventDao mDao;
+    private TimetaleDatabase mDb;
+    private EventDao mDao;
 
     @Before
     public void setUp() {
