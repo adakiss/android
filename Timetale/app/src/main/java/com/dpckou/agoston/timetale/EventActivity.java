@@ -481,12 +481,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         //long futureInMillis = SystemClock.elapsedRealtime() + delay;
         long futureInMillis = Calendar.getInstance().getTimeInMillis() + delay;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+        //alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
 
         /*Long time = new GregorianCalendar().getTimeInMillis()+delay;
         //Intent notificationIntent = new Intent(this, EventNotification.class);
-        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,time, PendingIntent.getBroadcast(this,1,  notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));*/
+        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);*/
+        alarmManager.set(AlarmManager.RTC_WAKEUP,futureInMillis, PendingIntent.getBroadcast(this,1,  notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
     private static void cancelNotification(Context ctx, int notifyId) {
