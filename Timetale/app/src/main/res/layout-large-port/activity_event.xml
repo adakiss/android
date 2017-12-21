@@ -138,6 +138,7 @@
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:hint="Description"
+                android:maxLines="1"
                 android:textSize="20sp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
@@ -192,22 +193,18 @@
                     android:textSize="20sp"
                     android:text="with:"
                     android:layout_weight="1"/>
+
                 <FrameLayout
-                    android:layout_gravity="fill"
-                    android:layout_height="0dp"
-                    android:layout_width="match_parent"
-                    android:layout_weight="6"
                     android:id="@+id/friendsList"
-                    >
-                </FrameLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="fill"
+                    android:layout_weight="6"></FrameLayout>
             </LinearLayout>
 
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:map="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/gps"
-                map:cameraZoom="13"
-                map:mapType="normal"
-                map:liteMode="true"
                 android:layout_gravity="fill"
                 android:layout_row="5"
                 android:layout_columnSpan="2"
@@ -218,7 +215,7 @@
                 android:layout_rowWeight="0.4"
                 android:name="com.google.android.gms.maps.MapFragment"
                 >
-            </fragment>
+            </FrameLayout>
         </GridLayout>
 
     </LinearLayout>

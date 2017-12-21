@@ -1,8 +1,5 @@
 package com.dpckou.agoston.timetale.weekday;
 
-/**
- * Created by kissa on 2017. 11. 04..
- */
 
 public class Hour {
 

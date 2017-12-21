@@ -24,9 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by kissa on 2017. 11. 01..
- */
 
 public class WeekDayFragment extends Fragment {
 

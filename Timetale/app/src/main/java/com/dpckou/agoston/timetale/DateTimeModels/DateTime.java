@@ -6,11 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by agoston on 2017.11.04..
- * Utterly basic structure to store the datas for FROM and TO in one place.
- */
-
 public class DateTime implements Comparable<DateTime>{
     private int year;
     private int month;
@@ -167,17 +162,6 @@ public class DateTime implements Comparable<DateTime>{
     }
 
     public long generateLong(){
-        /*//TODO has to be tested and verified.
-        String myDate = nullify(hour) + "-" + nullify(minute) + "-" +
-                nullify(day) + "-" + nullify(month) + "-" + nullify(year);
-        SimpleDateFormat sf = new SimpleDateFormat("HH-mm-dd-MM-yyyy");
-        Date d = new Date();
-        try {
-            d = sf.parse(myDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return d.getTime();*/
         Calendar c = Calendar.getInstance();
 
         c.set(year, month-1, day, hour, minute);

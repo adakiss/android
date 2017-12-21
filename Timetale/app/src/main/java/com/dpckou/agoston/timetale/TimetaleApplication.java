@@ -5,10 +5,6 @@ import android.arch.persistence.room.Room;
 
 import com.dpckou.agoston.timetale.persistence.TimetaleDatabase;
 
-/**
- * Created by kissa on 2017. 11. 10..
- */
-
 public class TimetaleApplication extends Application {
     public TimetaleApplication() {
         super();

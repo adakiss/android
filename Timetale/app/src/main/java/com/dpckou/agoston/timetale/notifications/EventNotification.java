@@ -7,10 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-/**
- * Created by agoston on 2017.11.20..
- */
-
 public class EventNotification extends BroadcastReceiver {
 
     public static final String NOTIFICATION = "notification";

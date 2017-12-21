@@ -9,10 +9,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/**
- * Created by agoston on 2017.11.21..
- */
-
 @RunWith(AndroidJUnit4.class)
 public class TextFormatterTest {
     private String first = "myNewEvent";

@@ -3,9 +3,6 @@ package com.dpckou.agoston.timetale;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by agoston on 2017.11.12..
- */
 
 public class ContactFriend implements Parcelable {
     private String nickName;

@@ -12,9 +12,6 @@ import android.widget.TextView;
 
 import com.dpckou.agoston.timetale.R;
 
-/**
- * Created by kissa on 2017. 11. 04..
- */
 
 public class HourAdapter extends Adapter<HourAdapter.MyViewHolder> {
 
@@ -25,9 +22,6 @@ public class HourAdapter extends Adapter<HourAdapter.MyViewHolder> {
         this.hours = hours;
         mListener = listener;
 
-        //for(int i = 0; i < hours.length; i++) {
-        //    hours[i] = new Hour(i++);
-        //}
     }
 
     @Override

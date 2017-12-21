@@ -11,10 +11,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-/**
- * Created by kissa on 2017. 11. 09..
- */
-
 @Entity(tableName = "event", indices = @Index(value = {"event_start", "event_end"}))
 public class Event {
 

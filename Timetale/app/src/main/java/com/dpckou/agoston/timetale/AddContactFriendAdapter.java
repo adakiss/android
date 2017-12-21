@@ -8,9 +8,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by agoston on 2017.11.12..
- */
 
 class AddContactFriendAdapter extends BaseAdapter {
 

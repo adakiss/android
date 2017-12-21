@@ -9,10 +9,6 @@ import android.arch.persistence.room.Update;
 
 import java.sql.Date;
 
-/**
- * Created by kissa on 2017. 11. 09..
- */
-
 @Dao
 public interface EventDao {
 

@@ -17,10 +17,6 @@ import com.dpckou.agoston.timetale.persistence.TimetaleDatabase;
 
 import java.sql.Date;
 
-/**
- * Created by kissa on 2017. 11. 09..
- */
-
 @RunWith(AndroidJUnit4.class)
 public class EventEntityTest {
 

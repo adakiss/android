@@ -5,10 +5,6 @@ import com.dpckou.agoston.timetale.weekday.Hour;
 
 import java.util.Calendar;
 
-/**
- * Created by kissa on 2017. 11. 10..
- */
-
 public class EventsOfDayConverter {
 
     private static Calendar c = Calendar.getInstance();

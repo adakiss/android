@@ -31,12 +31,6 @@
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
-        <activity android:name=".locations.Location"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".EventCards.EventCardActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

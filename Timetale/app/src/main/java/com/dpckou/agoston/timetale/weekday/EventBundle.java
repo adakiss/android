@@ -8,10 +8,6 @@ import com.dpckou.agoston.timetale.persistence.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by agoston on 2017.11.18..
- * A wrapper to make passing an event by its properties easier.
- */
 
 public class EventBundle implements Parcelable {
 

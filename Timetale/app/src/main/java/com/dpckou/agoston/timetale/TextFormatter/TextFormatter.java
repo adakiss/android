@@ -1,11 +1,5 @@
 package com.dpckou.agoston.timetale.TextFormatter;
 
-import android.arch.persistence.room.util.StringUtil;
-
-/**
- * Created by agoston on 2017.11.17..
- */
-
 public class TextFormatter {
 
     private static final int CAPITALIZE_FIRST = 1;

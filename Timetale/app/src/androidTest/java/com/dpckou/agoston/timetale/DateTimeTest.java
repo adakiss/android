@@ -14,9 +14,6 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by agoston on 2017.11.21..
- */
 @RunWith(AndroidJUnit4.class)
 public class DateTimeTest {
 

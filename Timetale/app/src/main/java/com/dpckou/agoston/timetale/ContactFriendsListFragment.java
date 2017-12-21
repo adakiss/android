@@ -24,9 +24,6 @@ import com.google.android.gms.games.event.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by agoston on 2017.11.12..
- */
 
 public class ContactFriendsListFragment extends Fragment {
     ListView listView;

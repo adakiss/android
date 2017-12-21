@@ -8,9 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by agoston on 2017.11.12..
- */
 
 public class AddContactFriendFragment extends Fragment {
     private View view;

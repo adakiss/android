@@ -53,14 +53,6 @@ public class SelectedEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), EventActivity.class);
-                /*
-                myIntent.putExtra(SelectedEventActivity.TITLE_TAG, myEvent.getEventName());
-                myIntent.putExtra(SelectedEventActivity.LOCATION_TAG, myEvent.getEventLocation());
-                myIntent.putExtra(SelectedEventActivity.DESCRIPTION_TAG, myEvent.getEventDescription());
-                myIntent.putStringArrayListExtra(SelectedEventActivity.FRIENDS_TAG, myEvent.getFriends());
-                myIntent.putExtra(SelectedEventActivity.FROM_TAG, myEvent.getEventStart());
-                myIntent.putExtra(SelectedEventActivity.TO_TAG, myEvent.getEventEnd());
-                */
                 myIntent.putExtra(EventBundle.NAME, new EventBundle(myEvent));
                 startActivity(myIntent);
             }
