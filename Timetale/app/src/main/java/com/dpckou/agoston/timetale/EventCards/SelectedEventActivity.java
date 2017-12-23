@@ -21,6 +21,7 @@ import com.dpckou.agoston.timetale.TextFormatter.TextFormatter;
 import com.dpckou.agoston.timetale.TimetaleApplication;
 import com.dpckou.agoston.timetale.persistence.Event;
 import com.dpckou.agoston.timetale.weekday.EventBundle;
+import com.dpckou.agoston.timetale.weekday.EventListActivity;
 import com.dpckou.agoston.timetale.weekday.WeekDayPagerActivity;
 
 import java.util.Date;
@@ -124,7 +125,7 @@ public class SelectedEventActivity extends AppCompatActivity {
             case R.id.action_delete:
 
                 TimetaleApplication.get().getDB().getDaoInstance().deleteEvent(myEvent);
-                Intent startIntent = new Intent(this, WeekDayPagerActivity.class);
+                Intent startIntent = new Intent(this, EventListActivity.class);
                 startActivity(startIntent);
 
                 return true;

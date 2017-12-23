@@ -3,7 +3,7 @@ package com.dpckou.agoston.timetale.persistence;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-@Database(entities = Event.class, version = 3)
+@Database(entities = Event.class, version = 4)
 public abstract class TimetaleDatabase extends RoomDatabase {
     protected abstract EventDao getEventDao();
 

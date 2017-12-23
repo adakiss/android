@@ -210,7 +210,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                         _from.getDay(), '.'));
                             }
                         }, _from.getYear(), _from.getMonth(), _from.getDay() );
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
                 dialog.show();
             }
         });
@@ -236,7 +236,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                         _to.getMonth(), _to.getDay(), '.'));
                             }
                         }, _to.getYear(), _to.getMonth(), _to.getDay() );
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
                 dialog.show();
             }
         });
@@ -257,7 +257,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                 toTime.setText(DateTime.formatTime(hour, minute, ':'));
                             }
                         }, _from.getHour(), _from.getMinute(), true);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
                 dialog.show();
             }
         });
@@ -280,7 +280,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                 toTime.setText(DateTime.formatTime(_to.getHour(), _to.getMinute(),':'));
                             }
                         }, _to.getHour(), _to.getMinute(),true);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
                 dialog.show();
             }
         });
@@ -347,9 +347,11 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                         if(_notifyMe[0]){
                             long _delay = MY_EVENT.getEventStart() - Calendar.getInstance().getTimeInMillis();
                             //long _delay = 60000;
-                            scheduleNotification(_me,_delay,MY_EVENT.getId());
+                            scheduleNotification(MY_EVENT,_me,_delay,MY_EVENT.getId());
+                            MY_EVENT.setNotifyMe(true);
                         }else{
                             try{
+                                MY_EVENT.setNotifyMe(false);
                                 cancelNotification(_me,MY_EVENT.getId());
                             }catch(Exception e){
                                 Log.i("Alarm notification", "No such notification to remove.");
@@ -405,7 +407,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         return res;
     }
 
-    private void scheduleNotification(Context context, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification
+    public static void scheduleNotification(Event MY_EVENT ,Context context, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentTitle(MY_EVENT.getEventName())
                 .setContentText(MY_EVENT.getEventDescription())
@@ -434,10 +436,10 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         /*Long time = new GregorianCalendar().getTimeInMillis()+delay;
         //Intent notificationIntent = new Intent(this, EventNotification.class);
         //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);*/
-        alarmManager.set(AlarmManager.RTC_WAKEUP,futureInMillis, PendingIntent.getBroadcast(this,1,  notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+        alarmManager.set(AlarmManager.RTC_WAKEUP,futureInMillis, PendingIntent.getBroadcast(context,1,  notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
-    private static void cancelNotification(Context ctx, int notifyId) {
+    public static void cancelNotification(Context ctx, int notifyId) {
         String ns = Context.NOTIFICATION_SERVICE;
         NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
         nMgr.cancel(notifyId);

@@ -29,4 +29,7 @@ public interface EventDao {
 
     @Query("DELETE FROM event WHERE event_end < :day_start")
     public void cleanOldEvents(long day_start);
+
+    @Query("SELECT * FROM event")
+    public Event[] getAll();
 }

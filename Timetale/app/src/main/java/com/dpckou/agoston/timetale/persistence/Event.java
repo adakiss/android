@@ -35,6 +35,15 @@ public class Event {
     @ColumnInfo(name = "event_friends")
     private String eventFriends;
 
+    @ColumnInfo(name = "notify_me")
+    private boolean notifyMe;
+
+    public boolean getNotifyMe(){return notifyMe;}
+
+    public void setNotifyMe(boolean notifyMe){
+        this.notifyMe = notifyMe;
+    }
+
     public int getId() {
         return id;
     }

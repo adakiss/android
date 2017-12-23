@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="10dp">
+    <LinearLayout
+        android:id="@+id/textsLin"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/titleName"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:minLines="1"
+            android:textSize="20sp"
+            android:text="Event #1"
+            android:textColor="#008899"
+            android:layout_marginRight="10dp"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/dates"
+                android:maxLines="1"
+                android:minLines="1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:text="02.03 - 02.04"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+            <TextView
+                android:layout_toRightOf="@id/dates"
+                android:id="@+id/times"
+                android:maxLines="1"
+                android:minLines="1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:textSize="20sp"
+                android:text="12:31 - 14:32"
+                android:layout_marginRight="3dp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/warningImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_warning_sign"/>
+    <Switch
+        android:id="@+id/toggleNotify"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"/>
+</LinearLayout>
